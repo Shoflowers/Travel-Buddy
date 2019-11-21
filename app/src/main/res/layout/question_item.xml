@@ -42,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="3dp"
-                android:alpha="0.6"
                 android:text="# votes"
                 android:textColor="#000000"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +61,7 @@
                 app:srcCompat="@mipmap/arrow" />
 
             <TextView
-                android:id="@+id/question"
+                android:id="@+id/questionTitle"
                 android:layout_width="324dp"
                 android:layout_height="59dp"
                 android:layout_marginTop="20dp"
@@ -83,17 +82,17 @@
                 android:text="# hours ago"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/voteCount"
-                app:layout_constraintTop_toBottomOf="@+id/question" />
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
 
             <ImageView
-                android:id="@+id/commentImg"
+                android:id="@+id/answerImg"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="5dp"
                 android:alpha="0.6"
-                app:layout_constraintEnd_toStartOf="@+id/commentCount"
-                app:layout_constraintTop_toBottomOf="@+id/question"
+                app:layout_constraintEnd_toStartOf="@+id/answerCount"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle"
                 app:srcCompat="@drawable/comment" />
 
             <ImageView
@@ -104,7 +103,7 @@
                 android:layout_marginEnd="5dp"
                 android:alpha="0.6"
                 app:layout_constraintEnd_toStartOf="@+id/viewCount"
-                app:layout_constraintTop_toBottomOf="@+id/question"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle"
                 app:srcCompat="@drawable/view" />
 
             <TextView
@@ -115,11 +114,11 @@
                 android:layout_marginEnd="10dp"
                 android:text="# view"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/commentImg"
-                app:layout_constraintTop_toBottomOf="@+id/question" />
+                app:layout_constraintEnd_toStartOf="@+id/answerImg"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
 
             <TextView
-                android:id="@+id/commentCount"
+                android:id="@+id/answerCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -127,7 +126,7 @@
                 android:text="# comment"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/question" />
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
