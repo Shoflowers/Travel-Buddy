@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.User;
@@ -31,6 +32,16 @@ public class HomeActivity extends AppCompatActivity {
                 forumButtonPressed();
             }
         });
+
+        ImageView addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCountryButtonPressed();
+            }
+        });
+
+        DatabaseHandler dbHandler = new DatabaseHandler();
     }
 
     // // Opens Forum Activity when user presses Germany Forum and sends Forum data
@@ -45,5 +56,13 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ForumActivity.class);
         intent.putExtra("Forum", dummyForum);
         startActivity(intent);
+    }
+
+    public void addCountryButtonPressed(){
+
+        Intent intent = new Intent(this, CountriesActivity.class);
+        intent.putExtra("User", curUser);
+        startActivity(intent);
+
     }
 }
