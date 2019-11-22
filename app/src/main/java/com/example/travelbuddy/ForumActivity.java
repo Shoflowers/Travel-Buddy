@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -95,11 +96,12 @@ public class ForumActivity extends AppCompatActivity {
     private void loadData(Intent intent) {
         countryNameTextView.setText(defaultCountryName);
         //countryImgView.setImageDrawable();
+        Log.d("Load Question List", "Loading" );
 
         getDefaultData();
         questionRecyclerAdapter = new QuestionRecyclerAdapter(defaultQList);
 
-        //qListView.setLayoutManager(new LinearLayoutManager(this));
+        qListView.setLayoutManager(new LinearLayoutManager(this));
         qListView.setAdapter(questionRecyclerAdapter);
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ForumQuestion implements Serializable {
     private String questionId;
+    private String fourmId;
     private String questionTitle;
     private String questionBody;
     private String userId;
@@ -17,6 +18,7 @@ public class ForumQuestion implements Serializable {
     private int viewcount;
 
 
+    //todo: add fourmId, viewcount
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
                          String userId, List<String> tags, List<String> answerIds, int votes, Timestamp dateTime) {
         this.questionId = questionId;

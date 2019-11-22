@@ -1,6 +1,8 @@
 package com.example.travelbuddy;
 
 import com.example.travelbuddy.Objects.*;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ForumQuestion curr = qList.get(position);
 
+        Log.d("qListItem", "In binding view");
         holder.setQuestionText(curr.getQuestionTitle());
         holder.setCommentCount(curr.getAnswerIds().size());
         holder.setVote(curr.getVotes());
@@ -39,26 +42,26 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
         //Todo: set onclick for buttons and text
 
-        holder.downvoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        holder.upvoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        holder.question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        holder.downvoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//
+//        holder.upvoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//
+//        holder.question.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -86,21 +89,22 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
         public void setQuestionText(String questionText) {
             question = qView.findViewById(R.id.questionTitle);
             question.setText(questionText);
+            Log.d("qListItem", "In set Question text");
         }
 
         public void setCommentCount(int count) {
             answerCount = qView.findViewById(R.id.answerCount);
-            answerCount.setText(count);
+            answerCount.setText("" + count);
         }
 
         public void setViewCount(int count) {
             viewCount = qView.findViewById(R.id.viewCount);
-            viewCount.setText(count);
+            viewCount.setText("" + count);
         }
 
         public void setVote(int count) {
             vote = qView.findViewById(R.id.voteCount);
-            vote.setText(count);
+            vote.setText("" + count);
         }
 
         public void setTime(String time) {
