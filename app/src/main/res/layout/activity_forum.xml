@@ -6,6 +6,7 @@
     android:tag="forumActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".ForumActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,3 +50,4 @@
 
 
 </FrameLayout>
+

@@ -34,6 +34,8 @@ public class ForumQuestion implements Serializable {
         this.viewcount = 100;
     }
 
+    public ForumQuestion(){}
+
     public String getQuestionId() {
         return questionId;
     }

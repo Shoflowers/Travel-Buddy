@@ -26,6 +26,8 @@ public class User implements Serializable {
         this.answerIds = answerIds;
     }
 
+    public User(){}
+
     public String getUsername() {
         return username;
     }
