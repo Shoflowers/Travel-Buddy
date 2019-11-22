@@ -1,6 +1,7 @@
 package com.example.travelbuddy.Objects;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,10 +13,12 @@ public class ForumQuestion implements Serializable {
     private List<String> tags;
     private List<String> answerIds;
     private int votes;
-    private LocalDateTime dateTime;
+    private Timestamp dateTime;
+    private int viewcount;
+
 
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
-                         String userId, List<String> tags, List<String> answerIds, int votes, LocalDateTime dateTime) {
+                         String userId, List<String> tags, List<String> answerIds, int votes, Timestamp dateTime) {
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionBody = questionBody;
@@ -24,6 +27,9 @@ public class ForumQuestion implements Serializable {
         this.answerIds = answerIds;
         this.votes = votes;
         this.dateTime = dateTime;
+
+        //todo: fix later
+        this.viewcount = 100;
     }
 
     public String getQuestionId() {
@@ -82,11 +88,13 @@ public class ForumQuestion implements Serializable {
         this.votes = votes;
     }
 
-    public LocalDateTime getDateTime() {
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
+
+    public int getViewCount() { return viewcount;}
 }

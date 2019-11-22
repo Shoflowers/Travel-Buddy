@@ -1,5 +1,6 @@
 package com.example.travelbuddy;
 
+import com.example.travelbuddy.Objects.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,9 @@ import java.util.List;
 
 public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> {
 
-    List<Question> qList;
+    List<ForumQuestion> qList;
 
-    public QuestionRecyclerAdapter(List<Question> qList) {
+    public QuestionRecyclerAdapter(List<ForumQuestion> qList) {
         this.qList = qList;
     }
 
@@ -28,13 +29,13 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Question curr = qList.get(position);
+        ForumQuestion curr = qList.get(position);
 
-        holder.setQuestionText(curr.getqTitle());
+        holder.setQuestionText(curr.getQuestionTitle());
         holder.setCommentCount(curr.getAnswerIds().size());
         holder.setVote(curr.getVotes());
         holder.setViewCount(curr.getViewCount());
-        holder.setTime(curr.getTimestamp().toString());
+        holder.setTime(curr.getDateTime().toString());
 
         //Todo: set onclick for buttons and text
 

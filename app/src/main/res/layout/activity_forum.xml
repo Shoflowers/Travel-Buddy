@@ -8,8 +8,45 @@
     android:layout_height="match_parent"
     tools:context=".ForumActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/question_list_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/countryImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="#802D3446"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/countryNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Germany"
+            android:textColor="#FFFFFF"
+            android:textSize="44sp"
+            app:layout_constraintBottom_toBottomOf="@id/countryImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/countryImageView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/question_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countryImageView"
+            app:layout_contraintTop_toBottomOf="@id/countryImageView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </FrameLayout>
