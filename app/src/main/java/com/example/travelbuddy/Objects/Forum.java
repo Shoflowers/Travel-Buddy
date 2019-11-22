@@ -16,6 +16,8 @@ public class Forum implements Serializable {
         this.questionIds = questionIds;
     }
 
+    public Forum(){}
+
     public String getCountryName() {
         return countryName;
     }
@@ -46,6 +48,12 @@ public class Forum implements Serializable {
 
     public void setQuestionIds(List<String> questionIds) {
         this.questionIds = questionIds;
+    }
+
+    @Override
+    public String toString() {
+        return "ForumID: " + this.forumId +
+                "Country Name: " + this.countryName;
     }
 
 }

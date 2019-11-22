@@ -26,6 +26,8 @@ public class ForumQuestion implements Serializable {
         this.dateTime = dateTime;
     }
 
+    public ForumQuestion(){}
+
     public String getQuestionId() {
         return questionId;
     }
