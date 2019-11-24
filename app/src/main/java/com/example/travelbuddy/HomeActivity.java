@@ -3,6 +3,7 @@ package com.example.travelbuddy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,6 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseHandler dbHandler;
 
     private List<Forum> favoritesList;
-
     private RecyclerView favoritesListView;
     private ForumRecyclerAdapter favoritesRecyclerAdapter;
 
@@ -64,8 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        System.out.println(userId);
-
         userRef = dbInstance.collection("users").document(userId);
         userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -81,7 +79,6 @@ public class HomeActivity extends AppCompatActivity {
 
                     favoritesList = new ArrayList<>();
                     getForums();
-
                 } else {
                     System.out.println("UserRef get data failed");
                 }
@@ -92,7 +89,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getForums(){
-        final Context curContext = this;
         dbInstance.collection("forums").get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -104,19 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                                     favoritesList.add(document.toObject(Forum.class));
                                 }
                             }
-
-                            ClickListener mylistener = new ClickListener() {
-                                @Override public void onPositionClicked(int position) {
-                                    forumButtonPressed(favoritesList.get(position));
-                                }
-                                @Override public void onButtonClicked(int position) {
-                                    // MOVE TO NEXT SCREEN
-                                }
-                            };
-                            favoritesRecyclerAdapter = new ForumRecyclerAdapter(favoritesList, mylistener);
-
-                            favoritesListView.setLayoutManager(new LinearLayoutManager(curContext));
-                            favoritesListView.setAdapter(favoritesRecyclerAdapter);
+                            setUpRecylcerView();
                         } else {
                             System.out.println("get failed with " + task.getException());
                         }
@@ -124,19 +108,50 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+    private void setUpRecylcerView(){
+
+        ClickListener mylistener = new ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                forumButtonPressed(favoritesList.get(position));
+            }
+            @Override public void onButtonClicked(int position) { }
+            @Override public void onDeleteItem(int position) {
+                favoritesList.remove(position);
+                List<String> forumIds = curUser.getForumIds();
+                forumIds.remove(position);
+                curUser.setForumIds(forumIds);
+                dbHandler.updateUser(curUser);
+            }
+        };
+        favoritesRecyclerAdapter = new ForumRecyclerAdapter(favoritesList, mylistener, false);
+
+        favoritesListView.setLayoutManager(new LinearLayoutManager(this));
+        favoritesListView.setAdapter(favoritesRecyclerAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                favoritesRecyclerAdapter.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(favoritesListView);
+    }
+
     // Opens Forum Activity when user presses Germany Forum and sends Forum data
     public void forumButtonPressed(Forum forum){
-
         Intent intent = new Intent(this, ForumActivity.class);
         intent.putExtra("Forum", forum);
         startActivity(intent);
     }
 
     public void addCountryButtonPressed(){
-
         Intent intent = new Intent(this, CountriesActivity.class);
         intent.putExtra("UserId", curUser.getUserId());
         startActivity(intent);
-
     }
 }

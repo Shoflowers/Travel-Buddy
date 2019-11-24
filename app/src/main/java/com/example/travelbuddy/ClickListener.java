@@ -6,4 +6,6 @@ public interface ClickListener {
 
     void onButtonClicked(int position);
 
+    void onDeleteItem(int position);
+
 }

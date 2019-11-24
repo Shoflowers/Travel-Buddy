@@ -60,7 +60,7 @@ public class CountriesActivity extends AppCompatActivity {
         });
 
         forumListView = findViewById(R.id.countryListView);
-        //forumListView.setHasFixedSize(true);
+        forumListView.setHasFixedSize(true);
 
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
@@ -100,14 +100,13 @@ public class CountriesActivity extends AppCompatActivity {
                             }
 
                             ClickListener mylistener = new ClickListener() {
-                                @Override public void onPositionClicked(int position) {
-                                    // Do Something on Position clicked
-                                }
+                                @Override public void onPositionClicked(int position) { }
                                 @Override public void onButtonClicked(int position) {
                                     addForum(forumList.get(position));
                                 }
+                                @Override public void onDeleteItem(int position) { }
                             };
-                            forumRecyclerAdapter = new ForumRecyclerAdapter(forumList, mylistener);
+                            forumRecyclerAdapter = new ForumRecyclerAdapter(forumList, mylistener, true);
 
                             forumListView.setLayoutManager(new LinearLayoutManager(curContext));
                             forumListView.setAdapter(forumRecyclerAdapter);

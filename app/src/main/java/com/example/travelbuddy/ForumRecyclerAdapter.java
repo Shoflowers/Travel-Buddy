@@ -20,17 +20,19 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
 
     private List<Forum> forumList;
     private ClickListener listener;
+    private boolean showAddbutton;
 
-    public ForumRecyclerAdapter(List<Forum> forumList, ClickListener listener) {
+    public ForumRecyclerAdapter(List<Forum> forumList, ClickListener listener, boolean showAddbutton) {
         this.forumList = forumList;
         this.listener = listener;
+        this.showAddbutton = showAddbutton;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.forum_item, parent, false);
-        return new ViewHolder(view, listener);
+        return new ViewHolder(view, showAddbutton);
     }
 
     @Override
@@ -62,7 +64,12 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
         });
     }
 
-    @Override
+    public void deleteItem(int position){
+        listener.onDeleteItem(position);
+    }
+
+
+@Override
     public int getItemCount() {
         return forumList.size();
     }
@@ -73,15 +80,14 @@ public class ForumRecyclerAdapter extends RecyclerView.Adapter<ForumRecyclerAdap
         private TextView countryName;
         private ImageView addForum;
         private ImageView countryImageView;
-        private WeakReference<ClickListener> listenerRef;
 
 
-        public ViewHolder(@NonNull View itemView, final ClickListener listener) {
+        public ViewHolder(@NonNull View itemView, boolean showAddButton) {
             super(itemView);
             forumView = itemView;
-            listenerRef = new WeakReference<>(listener);
 
             addForum = forumView.findViewById(R.id.addForumButton);
+            if(!showAddButton) addForum.setVisibility(View.INVISIBLE);
         }
 
         public void setCountryName(String name) {
