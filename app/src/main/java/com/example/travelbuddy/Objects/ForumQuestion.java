@@ -1,21 +1,26 @@
 package com.example.travelbuddy.Objects;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class ForumQuestion implements Serializable {
     private String questionId;
+    private String fourmId;
     private String questionTitle;
     private String questionBody;
     private String userId;
     private List<String> tags;
     private List<String> answerIds;
     private int votes;
-    private LocalDateTime dateTime;
+    private Date dateTime;
+    private int viewCount;
 
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
-                         String userId, List<String> tags, List<String> answerIds, int votes, LocalDateTime dateTime) {
+                         String userId, List<String> tags, List<String> answerIds, int votes,
+                         Date dateTime, String fourmId, int viewCount) {
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionBody = questionBody;
@@ -24,6 +29,8 @@ public class ForumQuestion implements Serializable {
         this.answerIds = answerIds;
         this.votes = votes;
         this.dateTime = dateTime;
+        this.viewCount = viewCount;
+        this.fourmId = fourmId;
     }
 
     public ForumQuestion(){}
@@ -84,11 +91,25 @@ public class ForumQuestion implements Serializable {
         this.votes = votes;
     }
 
-    public LocalDateTime getDateTime() {
+    public void setFourmId(String fourmId) {
+        this.fourmId = fourmId;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getFourmId() {
+        return fourmId;
+    }
+
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
+
+    public int getViewCount() { return viewCount;}
 }

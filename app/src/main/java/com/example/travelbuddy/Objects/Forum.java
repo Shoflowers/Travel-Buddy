@@ -53,7 +53,7 @@ public class Forum implements Serializable {
     @Override
     public String toString() {
         return "ForumID: " + this.forumId +
-                "Country Name: " + this.countryName;
+                ", Country Name: " + this.countryName;
     }
 
 }
