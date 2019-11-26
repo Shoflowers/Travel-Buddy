@@ -5,17 +5,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.travelbuddy.Objects.Forum;
+import com.example.travelbuddy.Objects.User;
 import com.example.travelbuddy.Objects.ForumQuestion;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.util.concurrent.AsyncCallable;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -24,8 +18,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+
+import java.util.ArrayList;
+import java.util.Locale;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import java.util.concurrent.Future;
 
 import javax.security.auth.callback.Callback;
@@ -39,6 +38,8 @@ public class DatabaseHandler {
         db = FirebaseFirestore.getInstance();
 
         String countryName = "germany";
+
+        /**
 
         // Get Forum for Germany:
         db.collection("forums").document(countryName).get().addOnCompleteListener(
@@ -69,8 +70,26 @@ public class DatabaseHandler {
                         }
                     }
                 });
+         **/
+
+
 
     }
+
+    public FirebaseFirestore getDbInstance(){
+
+        return db;
+
+    }
+
+    public void updateUser(User user){
+
+        db.collection("users").document(user.getUserId())
+                .set(user);
+
+    }
+
+
 
     // Add functions for getting data and setting data from Firebase
 

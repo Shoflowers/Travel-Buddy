@@ -34,19 +34,10 @@ public class LoginActivity extends AppCompatActivity {
     // Opens Home Activity after successful login and passes user object
     public void loginSuccess(){
         // Initalize Dummy User for now
-        User dummyUser = new User(
-                "DummyUser",
-                "Dummy",
-                "dummyuser@gmail.com",
-                null,
-                "dummyuserid123",
-                new ArrayList<>(Arrays.asList("germanyForum123")),
-                null,
-                null);
-
+        String dummyUserId = "dMm1rpBKuvYeZ4bBqy2j";
 
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("User", dummyUser);
+        intent.putExtra("UserId", dummyUserId);
         startActivity(intent);
     }
 }
