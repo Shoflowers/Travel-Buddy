@@ -15,12 +15,11 @@ public class ForumQuestion implements Serializable {
     private List<String> answerIds;
     private int votes;
     private Timestamp dateTime;
-    private int viewcount;
+    private int viewCount;
 
-
-    //todo: add fourmId, viewcount
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
-                         String userId, List<String> tags, List<String> answerIds, int votes, Timestamp dateTime) {
+                         String userId, List<String> tags, List<String> answerIds, int votes,
+                         Timestamp dateTime, String fourmId, int viewCount) {
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionBody = questionBody;
@@ -29,9 +28,8 @@ public class ForumQuestion implements Serializable {
         this.answerIds = answerIds;
         this.votes = votes;
         this.dateTime = dateTime;
-
-        //todo: fix later
-        this.viewcount = 100;
+        this.viewCount = viewCount;
+        this.fourmId = fourmId;
     }
 
     public ForumQuestion(){}
@@ -92,6 +90,18 @@ public class ForumQuestion implements Serializable {
         this.votes = votes;
     }
 
+    public void setFourmId(String fourmId) {
+        this.fourmId = fourmId;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getFourmId() {
+        return fourmId;
+    }
+
     public Timestamp getDateTime() {
         return dateTime;
     }
@@ -100,5 +110,5 @@ public class ForumQuestion implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public int getViewCount() { return viewcount;}
+    public int getViewCount() { return viewCount;}
 }

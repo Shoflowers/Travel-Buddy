@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.travelbuddy.Objects.Forum;
+import com.example.travelbuddy.Objects.ForumQuestion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.AsyncCallable;
@@ -17,11 +18,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.security.auth.callback.Callback;
@@ -69,6 +73,38 @@ public class DatabaseHandler {
     }
 
     // Add functions for getting data and setting data from Firebase
+
+    public List<ForumQuestion> getQestionList(List<String> qIds) {
+
+        List<ForumQuestion> qList = new LinkedList<>();
+        db.collection("questions")
+                .whereArrayContains("questionId", qIds)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //todo: construct qList
+//                                ForumQuestion q = new ForumQuestion(
+//                                        document.get("questionId"),
+//                                        document.get("questionTitle"),
+//                                        document.get("questionBody"),
+//                                        document.get("userId"),
+//                                        document.get("tags"),
+//                                        document.get("answerIds"),
+//                                        document.get("votes"),
+//                                        document.get("dateTime")
+//                                )
+                            }
+                        } else {
+                            Log.d("DEBUG", "Cannot get questions list.");
+                        }
+                    }
+                });
+
+        return qList;
+    }
 
 
 }
