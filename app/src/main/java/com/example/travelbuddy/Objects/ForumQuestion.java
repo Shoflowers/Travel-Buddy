@@ -3,6 +3,7 @@ package com.example.travelbuddy.Objects;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class ForumQuestion implements Serializable {
@@ -14,12 +15,12 @@ public class ForumQuestion implements Serializable {
     private List<String> tags;
     private List<String> answerIds;
     private int votes;
-    private Timestamp dateTime;
+    private Date dateTime;
     private int viewCount;
 
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
                          String userId, List<String> tags, List<String> answerIds, int votes,
-                         Timestamp dateTime, String fourmId, int viewCount) {
+                         Date dateTime, String fourmId, int viewCount) {
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionBody = questionBody;
@@ -102,11 +103,11 @@ public class ForumQuestion implements Serializable {
         return fourmId;
     }
 
-    public Timestamp getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Timestamp dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
