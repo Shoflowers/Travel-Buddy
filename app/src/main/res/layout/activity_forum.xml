@@ -30,7 +30,7 @@
             android:id="@+id/countryNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Germany"
+            android:text="germany"
             android:textColor="#FFFFFF"
             android:textSize="44sp"
             app:layout_constraintBottom_toBottomOf="@id/countryImageView"

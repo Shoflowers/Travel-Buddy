@@ -69,7 +69,10 @@ public class ForumActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         dbInstance = FirebaseFirestore.getInstance();
 
-        countryNameTextView.setText(forum.getCountryName());
+        String countryName =  forum.getCountryName();
+        countryName = countryName.substring(0,1).toUpperCase() + countryName.substring(1).toLowerCase();
+
+        countryNameTextView.setText(countryName);
 
         loadImage(forum.getPhotoUrl());
 
