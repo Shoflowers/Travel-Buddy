@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -60,35 +59,21 @@ public class ForumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum);
 
-//        Intent intent = getIntent();
-//        forum = (Forum) intent.getSerializableExtra("Forum");
+        Intent intent = getIntent();
+        forum = (Forum) intent.getSerializableExtra("Forum");
 
         qListView = findViewById(R.id.question_list_view);
         countryNameTextView = findViewById(R.id.countryNameTextView);
         countryImgView = findViewById(R.id.countryImageView);
+
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
-
-        // test
-        //todo: change back later
         dbInstance = FirebaseFirestore.getInstance();
-        dbInstance.collection("forums")
-                .document("germany")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Log.d("DEBUG", "get forum from db");
-                        forum = task.getResult().toObject(Forum.class);
-                        Log.d("DEBUG", forum.getCountryName());
 
+        countryNameTextView.setText(forum.getCountryName());
 
-                        countryNameTextView.setText(forum.getCountryName());
+        loadImage(forum.getPhotoUrl());
 
-                        loadImage(forum.getPhotoUrl());
-
-                        loadData(forum);
-                    }
-                });
+        loadData(forum);
 
     }
 
@@ -97,15 +82,10 @@ public class ForumActivity extends AppCompatActivity {
         //countryImgView.setImageDrawable();
         Log.d("Load Question List", "Loading" );
 
-//        getDefaultData();
-//        questionRecyclerAdapter = new QuestionRecyclerAdapter(defaultQList);
-//
-//        qListView.setLayoutManager(new LinearLayoutManager(this));
-//        qListView.setAdapter(questionRecyclerAdapter);
 
         final Context currContext = this;
         qList = new LinkedList<>();
-        Log.d("DEBUG", "qIDs: " + forum.getQuestionIds().get(0));
+        Log.d("DEBUG", "qIDs: " + forum.getQuestionIds().size());
 
         dbInstance.collection("questions")
                 .whereEqualTo("forumId", forum.getForumId())
@@ -141,7 +121,7 @@ public class ForumActivity extends AppCompatActivity {
                 public void onResponse(Bitmap response) {
                     countryImgView.setImageBitmap(response);
                 }
-        }, 1440, 810, null,
+        }, 1440, 720, null,
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
