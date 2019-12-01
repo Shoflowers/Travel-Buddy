@@ -4,4 +4,8 @@
     <string name="sample_question">
         Would it be correct to say, "Aus diesem Grund möchte ich sie bitten, meinen Vertrag schnell wie möglich zu kündigen"?
     </string>
+
+    <string name="question_prompt">
+        Write your question ...
+    </string>
 </resources>

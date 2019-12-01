@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -22,8 +25,7 @@ import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.ForumQuestion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,6 +45,11 @@ public class ForumActivity extends AppCompatActivity {
     private ImageView countryImgView;
     private List<ForumQuestion> qList;
     private QuestionRecyclerAdapter questionRecyclerAdapter;
+    private LinearLayout bottomSheet;
+    private BottomSheetBehavior sheetBehavior;
+    private Button cancelBtn;
+    private Button sendBtn;
+    private Button addBtn;
 
     private DatabaseHandler dbHandler;
     private FirebaseFirestore dbInstance;
@@ -65,6 +72,39 @@ public class ForumActivity extends AppCompatActivity {
         qListView = findViewById(R.id.question_list_view);
         countryNameTextView = findViewById(R.id.countryNameTextView);
         countryImgView = findViewById(R.id.countryImageView);
+        bottomSheet = findViewById(R.id.new_question_bottom_sheet);
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        addBtn = findViewById(R.id.newQuestionBtn);
+        cancelBtn = findViewById(R.id.cancelButton);
+        sendBtn = findViewById(R.id.sendButton);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    //todo: get new question data and update db
+                }
+            }
+        });
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         dbInstance = FirebaseFirestore.getInstance();
@@ -124,7 +164,7 @@ public class ForumActivity extends AppCompatActivity {
                 public void onResponse(Bitmap response) {
                     countryImgView.setImageBitmap(response);
                 }
-        }, 1440, 720, null,
+        }, 1440, 480, null,
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
