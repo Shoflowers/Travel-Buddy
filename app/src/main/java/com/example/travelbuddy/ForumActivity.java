@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,9 @@ import com.example.travelbuddy.Objects.ForumQuestion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -53,6 +57,7 @@ public class ForumActivity extends AppCompatActivity {
 
     private DatabaseHandler dbHandler;
     private FirebaseFirestore dbInstance;
+    private FirebaseAuth dbAuth;
     private RequestQueue requestQueue;
 
 
@@ -102,6 +107,20 @@ public class ForumActivity extends AppCompatActivity {
                 if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     //todo: get new question data and update db
+                    EditText qTitle = findViewById(R.id.qTitleEditText);
+                    EditText qBody = findViewById(R.id.qBodyEditText);
+                    //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    String uid = "8fhF8C0VFIg5bnyrJEFH";
+
+                    DocumentReference addedDocRef = dbInstance.collection("questions").document();
+                    ForumQuestion newQuestion = new ForumQuestion(
+                            addedDocRef.getId(), qTitle.getText().toString(), qBody.getText().toString(),
+                            uid, new ArrayList<String>(), new ArrayList<String>(), 0,
+                            new Date(System.currentTimeMillis()), forum.getForumId(), 0);
+                    addedDocRef.set(newQuestion);
+                    qList.add(newQuestion);
+                    questionRecyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -123,12 +142,11 @@ public class ForumActivity extends AppCompatActivity {
     private void loadData(Forum forum) {
         //countryNameTextView.setText(defaultCountryName);
         //countryImgView.setImageDrawable();
-        Log.d("Load Question List", "Loading" );
-
+        Log.d("DEBUG", "Loading from " + forum.getForumId() );
+        Log.d("DEBUG", "qIDs: " + forum.getQuestionIds().size());
 
         final Context currContext = this;
         qList = new LinkedList<>();
-        Log.d("DEBUG", "qIDs: " + forum.getQuestionIds().size());
 
         dbInstance.collection("questions")
                 .whereEqualTo("forumId", forum.getForumId())
@@ -137,8 +155,8 @@ public class ForumActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            Log.d("DEBUG", task.getResult().size() + " questions");
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("DEBUG", "getting " +document.getData().toString());
                                 qList.add(document.toObject(ForumQuestion.class));
                             }
 

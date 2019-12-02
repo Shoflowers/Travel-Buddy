@@ -38,11 +38,12 @@
 
             <TextView
                 android:id="@+id/voteCount"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="3dp"
-                android:text="# votes"
+                android:text="1234"
+                android:textAlignment="center"
                 android:textColor="#000000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/upvoteBtn" />

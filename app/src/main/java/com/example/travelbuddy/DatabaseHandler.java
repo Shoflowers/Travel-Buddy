@@ -93,18 +93,18 @@ public class DatabaseHandler {
 
     // Add functions for getting data and setting data from Firebase
 
-    public List<ForumQuestion> getQestionList(List<String> qIds) {
+//    public List<ForumQuestion> getQestionList(List<String> qIds) {
 
-        List<ForumQuestion> qList = new LinkedList<>();
-        db.collection("questions")
-                .whereArrayContains("questionId", qIds)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //todo: construct qList
+//        List<ForumQuestion> qList = new LinkedList<>();
+//        db.collection("questions")
+//                .whereArrayContains("questionId", qIds)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                //todo: construct qList
 //                                ForumQuestion q = new ForumQuestion(
 //                                        document.get("questionId"),
 //                                        document.get("questionTitle"),
@@ -115,15 +115,15 @@ public class DatabaseHandler {
 //                                        document.get("votes"),
 //                                        document.get("dateTime")
 //                                )
-                            }
-                        } else {
-                            Log.d("DEBUG", "Cannot get questions list.");
-                        }
-                    }
-                });
-
-        return qList;
-    }
+//                            }
+//                        } else {
+//                            Log.d("DEBUG", "Cannot get questions list.");
+//                        }
+//                    }
+//                });
+//
+//        return qList;
+//    }
 
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ForumQuestion implements Serializable {
     private String questionId;
-    private String fourmId;
+    private String forumId;
     private String questionTitle;
     private String questionBody;
     private String userId;
@@ -20,7 +20,7 @@ public class ForumQuestion implements Serializable {
 
     public ForumQuestion(String questionId, String questionTitle, String questionBody,
                          String userId, List<String> tags, List<String> answerIds, int votes,
-                         Date dateTime, String fourmId, int viewCount) {
+                         Date dateTime, String forumId, int viewCount) {
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionBody = questionBody;
@@ -30,7 +30,7 @@ public class ForumQuestion implements Serializable {
         this.votes = votes;
         this.dateTime = dateTime;
         this.viewCount = viewCount;
-        this.fourmId = fourmId;
+        this.forumId = forumId;
     }
 
     public ForumQuestion(){}
@@ -91,16 +91,16 @@ public class ForumQuestion implements Serializable {
         this.votes = votes;
     }
 
-    public void setFourmId(String fourmId) {
-        this.fourmId = fourmId;
+    public void setForumId(String forumId) {
+        this.forumId = forumId;
     }
 
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
 
-    public String getFourmId() {
-        return fourmId;
+    public String getForumId() {
+        return forumId;
     }
 
     public Date getDateTime() {
