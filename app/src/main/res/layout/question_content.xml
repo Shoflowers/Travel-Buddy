@@ -64,6 +64,19 @@
         />
 
     <TextView
+        android:id="@+id/qBodyTextView"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Here is the Description."
+        android:textColor="#C4000000"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qTitleTextView"
+        />
+
+    <TextView
         android:id="@+id/questionTimePosted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +85,8 @@
         android:text="# hours ago"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@id/qBodyTextView" />
+
 
     <ImageView
         android:id="@+id/viewImg2"
@@ -82,7 +96,7 @@
         android:layout_marginEnd="5dp"
         android:alpha="0.6"
         app:layout_constraintEnd_toStartOf="@id/qAnswerCount"
-        app:layout_constraintTop_toBottomOf="@id/qTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/qBodyTextView"
         app:srcCompat="@drawable/comment" />
 
     <ImageView
@@ -93,7 +107,7 @@
         android:layout_marginEnd="5dp"
         android:alpha="0.6"
         app:layout_constraintEnd_toStartOf="@id/qViewCount"
-        app:layout_constraintTop_toBottomOf="@id/qTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/qBodyTextView"
         app:srcCompat="@drawable/view" />
 
     <TextView
@@ -105,7 +119,7 @@
         android:text="# view"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@id/viewImg2"
-        app:layout_constraintTop_toBottomOf="@id/qTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@id/qBodyTextView" />
 
     <TextView
         android:id="@+id/qAnswerCount"
@@ -116,7 +130,7 @@
         android:text="# answers"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@id/qBodyTextView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/answerListView"

@@ -30,11 +30,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -113,12 +115,24 @@ public class ForumActivity extends AppCompatActivity {
 
                     String uid = "8fhF8C0VFIg5bnyrJEFH";
 
+                    //add new question to questions collection
                     DocumentReference addedDocRef = dbInstance.collection("questions").document();
                     ForumQuestion newQuestion = new ForumQuestion(
                             addedDocRef.getId(), qTitle.getText().toString(), qBody.getText().toString(),
                             uid, new ArrayList<String>(), new ArrayList<String>(), 0,
                             new Date(System.currentTimeMillis()), forum.getForumId(), 0);
                     addedDocRef.set(newQuestion);
+
+                    //update forum and users
+                    dbInstance.collection("forums")
+                            .document(forum.getForumId())
+                            .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
+
+                    dbInstance.collection("users")
+                            .document(uid)
+                            .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
+
+                    //update UI
                     qList.add(newQuestion);
                     questionRecyclerAdapter.notifyDataSetChanged();
                 }

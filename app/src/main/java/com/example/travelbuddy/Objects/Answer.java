@@ -1,9 +1,10 @@
 package com.example.travelbuddy.Objects;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Answer {
+public class Answer implements Serializable {
 
     String answerBody;
     String answerId;

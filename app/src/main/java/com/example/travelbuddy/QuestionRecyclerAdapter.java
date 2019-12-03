@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,12 +83,17 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 //            }
 //        });
 //
-//        holder.question.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+
+        holder.question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newIntent = new Intent(context, AnswerActivity.class);
+                newIntent.putExtra("question", qList.get(holder.getAdapterPosition()));
+                //todo: add user to intent
+                //newIntent.putExtra("user", firebaseAuth.getCurrentUser());
+                context.startActivity(newIntent);
+            }
+        });
     }
 
     @Override
