@@ -42,50 +42,48 @@ public class LoginActivity extends AppCompatActivity {
 
         Button logInButton = findViewById(R.id.logInButton);
         logInButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               //loginSuccess();
-
-               String email = emailId.getText().toString();
-               String pwd = password.getText().toString();
-               if (email.isEmpty()){
-                   emailId.setError("Please enter email. ");
-                   emailId.requestFocus();
-
-               }
-               else if (pwd.isEmpty()){
-                   password.setError("Please enter your password");
-                   password.requestFocus();
-               }
-
-               else {
-                   mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-
-
-                       @Override
-                       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                           FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                           if (mFirebaseUser != null) {
-                               Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-                               Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                               startActivity(i);
-                           } else {
-                               Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
-
-                           }
-                       }
-                   };
-               }
-
-        tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intSignUp = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intSignUp);
+            public void onClick(View v) {
+                //loginSuccess();
+
+                String email = emailId.getText().toString();
+                String pwd = password.getText().toString();
+                if (email.isEmpty()) {
+                    emailId.setError("Please enter email. ");
+                    emailId.requestFocus();
+
+                } else if (pwd.isEmpty()) {
+                    password.setError("Please enter your password");
+                    password.requestFocus();
+                } else {
+                    mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+
+
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                            if (mFirebaseUser != null) {
+                                Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    };
+                }
+
+                tvSignUp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intSignUp = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intSignUp);
+                    }
+                });
             }
         });
-            }
-            });
+    }
 
     @Override
     protected void onStart(){
