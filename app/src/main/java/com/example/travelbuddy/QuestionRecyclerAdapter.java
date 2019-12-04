@@ -1,10 +1,7 @@
 package com.example.travelbuddy;
 
 import com.example.travelbuddy.Objects.*;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -92,6 +89,8 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
                 //todo: add user to intent
                 //newIntent.putExtra("user", firebaseAuth.getCurrentUser());
                 context.startActivity(newIntent);
+
+                //todo: increment viewCount when user clink on this question
             }
         });
     }

@@ -10,6 +10,8 @@ public class Answer implements Serializable {
     String answerId;
     String questionId;
     String userId;
+    String userName;
+    String userPhotoUrl;
     int vote;
     int view;
     Date date;
@@ -17,8 +19,24 @@ public class Answer implements Serializable {
 
     public Answer(){}
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPhotoUrl() {
+        return userPhotoUrl;
+    }
+
+    public void setUserPhotoUrl(String userPhotoUrl) {
+        this.userPhotoUrl = userPhotoUrl;
+    }
+
     public Answer(String answerBody, String answerId, String questionId, String userId,
-                  int vote, int view, Date date, List<String> commentList) {
+                  int vote, int view, Date date, List<String> commentList, String userName, String url) {
         this.answerBody = answerBody;
         this.answerId = answerId;
         this.questionId = questionId;
@@ -27,6 +45,8 @@ public class Answer implements Serializable {
         this.view = view;
         this.date = date;
         this.commentList = commentList;
+        this.userName = userName;
+        this.userPhotoUrl = url;
     }
 
     public String getAnswerBody() {
