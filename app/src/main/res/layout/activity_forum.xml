@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:tag="forumActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,19 @@
 
     <include layout="@layout/forum_content" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        android:layout_gravity="bottom"
+        app:menu="@layout/bottom_nav_menu" />
+
     <include layout="@layout/new_question_bottom_sheet" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
