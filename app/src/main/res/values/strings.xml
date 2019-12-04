@@ -4,4 +4,14 @@
     <string name="sample_question">
         Would it be correct to say, "Aus diesem Grund möchte ich sie bitten, meinen Vertrag schnell wie möglich zu kündigen"?
     </string>
+
+    <string name="sample_answer">
+        Pre-meal toasts are not uncommon in Germany, so you need to know how to conduct yourself during them. “Zum Wohl!” which literally means “with wine,” and “Prost!” which translates to “with beer,” are two frequently heard toasts in Germany, and both are meant to communicate a wish for good health.
+
+Maintaining eye contact during a toast is important throughout Germany, but this part of dining etiquette is even more crucial in eastern regions of the country.
+    </string>
+
+    <string name="question_prompt">
+        Write your question ...
+    </string>
 </resources>
