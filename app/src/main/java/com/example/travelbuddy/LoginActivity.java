@@ -40,29 +40,12 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editText2);
         tvSignUp = findViewById(R.id.textView2);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                if (mFirebaseUser != null){
-                    Toast.makeText(LoginActivity.this,"You are logged in", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-                    startActivity(i);
-                }
-                else{
-                    Toast.makeText(LoginActivity.this,"Please Login", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        };
-
         Button logInButton = findViewById(R.id.logInButton);
         logInButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                //loginSuccess();
+
                String email = emailId.getText().toString();
                String pwd = password.getText().toString();
                if (email.isEmpty()){
@@ -75,40 +58,34 @@ public class LoginActivity extends AppCompatActivity {
                    password.requestFocus();
                }
 
-               else if (email.isEmpty() && pwd.isEmpty()){
-                   Toast.makeText(LoginActivity.this,"Fields are empty!",Toast.LENGTH_SHORT);
+               else {
+                   mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
-               }
-               else if (!(email.isEmpty() && pwd.isEmpty())){
-                   mFirebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+
                        @Override
-                       public void onComplete(@NonNull Task<AuthResult> task) {
-                          if (!task.isSuccessful()){
-                              Toast.makeText(LoginActivity.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT);
+                       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                           FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                           if (mFirebaseUser != null) {
+                               Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                               Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                               startActivity(i);
+                           } else {
+                               Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
 
-                          }
-                          else{
-                              Intent intToHme = new Intent(LoginActivity.this,HomeActivity.class);
-                              startActivity(intToHme);
-                          }
+                           }
                        }
-                   });
+                   };
                }
-
-               else{
-                   Toast.makeText(LoginActivity.this,"Error Occurred!",Toast.LENGTH_SHORT);
-               }
-           }
-       });
 
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intSignUp = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intSignUp = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intSignUp);
             }
         });
-    }
+            }
+            });
 
     @Override
     protected void onStart(){
@@ -135,4 +112,12 @@ public class LoginActivity extends AppCompatActivity {
 //        intent.putExtra("User", dummyUser);
 //        startActivity(intent);
 //    }
+    public void loginSuccess(){
+        // Initalize Dummy User for now
+        String dummyUserId = "dMm1rpBKuvYeZ4bBqy2j";
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("UserId", dummyUserId);
+        startActivity(intent);
+    }
 }

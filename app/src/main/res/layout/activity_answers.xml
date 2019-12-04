@@ -2,15 +2,12 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:tag="forumActivity"
+    android:tag="answersActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForumActivity">
+    tools:context=".AnswerActivity">
 
-    <include layout="@layout/forum_content" />
-
-    <include layout="@layout/new_question_bottom_sheet" />
+    <include layout="@layout/question_content" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/main_question_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/upvoteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:alpha="0.6"
+                android:background="#FFFFFF"
+                android:rotation="-90"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/arrow" />
+
+            <TextView
+                android:id="@+id/voteCount"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="3dp"
+                android:text="1234"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upvoteBtn" />
+
+            <ImageButton
+                android:id="@+id/downvoteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="3dp"
+                android:alpha="0.6"
+                android:background="#FFFFFF"
+                android:rotation="90"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/voteCount"
+                app:srcCompat="@mipmap/arrow" />
+
+            <TextView
+                android:id="@+id/questionTitle"
+                android:layout_width="324dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/sample_question"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.509"
+                app:layout_constraintStart_toEndOf="@+id/voteCount"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/timePosted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="# hours ago"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/voteCount"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
+
+            <ImageView
+                android:id="@+id/answerImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:alpha="0.6"
+                app:layout_constraintEnd_toStartOf="@+id/answerCount"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle"
+                app:srcCompat="@drawable/comment" />
+
+            <ImageView
+                android:id="@+id/viewImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:alpha="0.6"
+                app:layout_constraintEnd_toStartOf="@+id/viewCount"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle"
+                app:srcCompat="@drawable/view" />
+
+            <TextView
+                android:id="@+id/viewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:text="# view"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/answerImg"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
+
+            <TextView
+                android:id="@+id/answerCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                android:text="# comment"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
