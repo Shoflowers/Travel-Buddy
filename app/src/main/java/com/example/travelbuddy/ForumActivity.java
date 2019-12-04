@@ -67,11 +67,13 @@ public class ForumActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Log.d("DEBUG", "get forum from db");
+                        System.out.println("GOT TASK");
                         forum = task.getResult().toObject(Forum.class);
+                        System.out.println(forum);
                     }
                 });
 
-
+        /**
         qListView = findViewById(R.id.question_list_view);
         countryNameTextView = findViewById(R.id.countryNameTextView);
         countryImgView = findViewById(R.id.countryImageView);
@@ -84,6 +86,7 @@ public class ForumActivity extends AppCompatActivity {
 
 
         loadData(forum);
+         **/
 
     }
 
