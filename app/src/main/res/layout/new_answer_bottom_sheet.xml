@@ -36,7 +36,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edittext_background"
             android:gravity="left"
-            android:hint="@string/question_prompt"
+            android:hint="@string/answer_prompt"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

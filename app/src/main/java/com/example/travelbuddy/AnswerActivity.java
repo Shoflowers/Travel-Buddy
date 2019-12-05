@@ -48,6 +48,7 @@ public class AnswerActivity extends AppCompatActivity {
 
     private ForumQuestion question;
     private User currUser;
+
     private ImageView questionerImg;
     private TextView questionerUserName;
     private TextView qTitle;
@@ -78,8 +79,6 @@ public class AnswerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         question = (ForumQuestion) intent.getSerializableExtra("question");
 
-        //todo
-        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         backBtn = findViewById(R.id.answerBackButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +161,9 @@ public class AnswerActivity extends AppCompatActivity {
                     dbInstance.collection("users")
                             .document(currUser.getUserId())
                             .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
+
+                    //clear text
+                    aBody.setHint("Write your answer ...");
                 }
             }
         });

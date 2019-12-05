@@ -14,4 +14,8 @@ Maintaining eye contact during a toast is important throughout Germany, but this
     <string name="question_prompt">
         Write your question ...
     </string>
+
+    <string name="answer_prompt">
+        Write your answer ...
+    </string>
 </resources>

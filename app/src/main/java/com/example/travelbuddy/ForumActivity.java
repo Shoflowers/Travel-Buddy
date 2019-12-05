@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import com.example.travelbuddy.Objects.ForumQuestion;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -140,10 +142,39 @@ public class ForumActivity extends AppCompatActivity {
                             .document(currUser.getUserId())
                             .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
-                    //update UI
-                    qList.add(newQuestion);
-                    questionRecyclerAdapter.notifyDataSetChanged();
+                    //clear text
+                    qTitle.setHint("Title");
+                    qBody.setHint("Write your question ...");
+
+
                 }
+            }
+        });
+
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_forum);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_favorites:
+                        Intent a = new Intent(ForumActivity.this, HomeActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(a);
+                        break;
+                    case R.id.action_explore:
+                        Intent b = new Intent(ForumActivity.this, ExploreActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(b);
+                        break;
+                    case R.id.action_profile:
+                        Intent c = new Intent(ForumActivity.this, ProfileActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
+
+                        break;
+                }
+                return false;
             }
         });
 

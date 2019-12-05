@@ -33,6 +33,7 @@
                 android:alpha="0.6"
                 android:background="#FFFFFF"
                 android:rotation="-90"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@mipmap/arrow" />
@@ -64,23 +65,24 @@
 
             <TextView
                 android:id="@+id/answerPreviewTextView"
-                android:layout_width="324dp"
-                android:layout_height="59dp"
+                android:layout_width="310dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/sample_answer"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/profileImgView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.263"
                 app:layout_constraintStart_toEndOf="@+id/answerVoteCount"
-                tools:layout_editor_absoluteY="48dp" />
+                app:layout_constraintTop_toBottomOf="@id/cardView" />
 
             <TextView
                 android:id="@+id/answerTimePosted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:text="# hours ago"
                 android:textSize="12sp"
@@ -131,27 +133,40 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/answerPreviewTextView" />
 
-
-            <ImageView
-                android:id="@+id/profileImgView"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="10dp"
-                app:srcCompat="@android:drawable/sym_def_app_icon" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/profilepic"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintStart_toEndOf="@id/answerVoteCount"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/profileImgView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            </androidx.cardview.widget.CardView>
+
 
             <TextView
                 android:id="@+id/userNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:text="Tim Meyer"
                 android:textColor="#000000"
                 android:textSize="18dp"
-                app:layout_constraintStart_toEndOf="@id/profileImgView"
+                app:layout_constraintStart_toEndOf="@id/cardView"
                 app:layout_constraintTop_toTopOf="parent" />
 
 

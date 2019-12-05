@@ -15,6 +15,7 @@
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".ExploreActivity" />
         <activity android:name=".AnswerActivity" />
+        <activity android:name=".AnswerDetailActivity"></activity>
         <activity android:name=".CountriesActivity" />
         <activity android:name=".ForumActivity" />
         <activity android:name=".HomeActivity" />
