@@ -106,17 +106,7 @@ public class AnswerActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         dbInstance = FirebaseFirestore.getInstance();
 
-        //hard code user
-        dbInstance.collection("users").document("3N6mP9e1mtnztFQWqzsF")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            currUser = task.getResult().toObject(User.class);
-                        }
-                    }
-                });
+        currUser = ((TravelBuddyApplication)getApplication()).getCurUser();
 
         loadQuestionData();
         loadUserData(question.getUserId());

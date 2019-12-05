@@ -26,6 +26,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.ForumQuestion;
+import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -50,6 +51,7 @@ import java.util.List;
 public class ForumActivity extends AppCompatActivity {
 
     Forum forum;
+    User currUser;
     private RecyclerView qListView;
     private TextView countryNameTextView;
     private ImageView countryImgView;
@@ -79,6 +81,7 @@ public class ForumActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         forum = (Forum) intent.getSerializableExtra("Forum");
+        currUser = ((TravelBuddyApplication)getApplication()).getCurUser();
 
         qListView = findViewById(R.id.question_list_view);
         countryNameTextView = findViewById(R.id.countryNameTextView);
@@ -120,13 +123,11 @@ public class ForumActivity extends AppCompatActivity {
                     EditText qBody = findViewById(R.id.qBodyEditText);
                     //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    String uid = "8fhF8C0VFIg5bnyrJEFH";
-
                     //add new question to questions collection
                     DocumentReference addedDocRef = dbInstance.collection("questions").document();
                     ForumQuestion newQuestion = new ForumQuestion(
                             addedDocRef.getId(), qTitle.getText().toString(), qBody.getText().toString(),
-                            uid, new ArrayList<String>(), new ArrayList<String>(), 0,
+                            currUser.getUserId(), new ArrayList<String>(), new ArrayList<String>(), 0,
                             new Date(System.currentTimeMillis()), forum.getForumId(), 0);
                     addedDocRef.set(newQuestion);
 
@@ -136,7 +137,7 @@ public class ForumActivity extends AppCompatActivity {
                             .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
                     dbInstance.collection("users")
-                            .document(uid)
+                            .document(currUser.getUserId())
                             .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
                     //update UI
