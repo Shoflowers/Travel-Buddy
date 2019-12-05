@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,35 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
-                                        System.out.println( "signInWithEmail:success");
-                                        Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                                        loginSuccess();
 
-                                        FirebaseUser fbUser = mAuth.getCurrentUser();
-                                        fbUser.getUid();
-
-                                        DatabaseHandler dbHandler = new DatabaseHandler();
-                                        FirebaseFirestore dbInstance = dbHandler.getDbInstance();
-
-                                        dbInstance.collection("users").document(fbUser.getUid())
-                                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                                                @Nullable FirebaseFirestoreException e) {
-                                                if (e != null) {
-                                                    System.out.println("UserRef get data failed");
-                                                    return;
-                                                }
-                                                if (snapshot != null && snapshot.exists()) {
-                                                    User curUser = snapshot.toObject(User.class);
-                                                    ((TravelBuddyApplication) LoginActivity.this.getApplication()).setCurUser(curUser);
-                                                } else {
-                                                    System.out.println("UserRef get data failed");
-                                                }
-                                            }
-                                        });
-
-                                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                        startActivity(i);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         System.out.println(  "signInWithEmail:failure" + task.getException());
@@ -117,31 +89,39 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    // Opens Home Activity after successful login and passes user object
-//    public void loginSuccess(){
-//        // Initalize Dummy User for now
-//        User dummyUser = new User(
-//                "DummyUser",
-//                "Dummy",
-//                "dummyuser@gmail.com",
-//                null,
-//                "dummyuserid123",
-//                new ArrayList<>(Arrays.asList("germanyForum123")),
-//                null,
-//                null);
-//
-//
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        intent.putExtra("User", dummyUser);
-//        startActivity(intent);
-//    }
     public void loginSuccess(){
-        // Initalize Dummy User for now
-        String dummyUserId = "dMm1rpBKuvYeZ4bBqy2j";
+        System.out.println( "signInWithEmail:success");
+        Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("UserId", dummyUserId);
-        startActivity(intent);
+        FirebaseUser fbUser = mAuth.getCurrentUser();
+        fbUser.getUid();
+
+        DatabaseHandler dbHandler = new DatabaseHandler();
+        FirebaseFirestore dbInstance = dbHandler.getDbInstance();
+
+        dbInstance.collection("users").document(fbUser.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            System.out.println("UserRef get data failed");
+                            return;
+                        }
+                        if (snapshot != null && snapshot.exists()) {
+                            User curUser = snapshot.toObject(User.class);
+
+                            if(((TravelBuddyApplication) LoginActivity.this.getApplication()).getCurUser() == null) {
+                                ((TravelBuddyApplication) LoginActivity.this.getApplication()).setCurUser(curUser);
+                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            }
+                            ((TravelBuddyApplication) LoginActivity.this.getApplication()).setCurUser(curUser);
+
+                        } else {
+                            System.out.println("UserRef get data failed");
+                        }
+                    }
+                });
     }
 }
