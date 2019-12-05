@@ -9,5 +9,7 @@
 
     <include layout="@layout/question_content" />
 
+    <include layout="@layout/new_answer_bottom_sheet"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

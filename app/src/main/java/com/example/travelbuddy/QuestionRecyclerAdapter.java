@@ -64,33 +64,37 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
             public void onClick(View view) {
                 Log.d("DEBUG", "click downvote");
 
-                holder.setVote(qList.get(position).getVotes() - 1);
-
                 firebaseFirestore.collection("questions")
                         .document(currQuestionId)
                         .update("votes", FieldValue.increment(-1));
             }
         });
 
-//
-//        holder.upvoteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//
 
-        holder.question.setOnClickListener(new View.OnClickListener() {
+        holder.upvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                firebaseFirestore.collection("questions")
+                        .document(currQuestionId)
+                        .update("votes", FieldValue.increment(1));
+            }
+        });
+
+
+        holder.qView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                firebaseFirestore.collection("questions")
+                        .document(currQuestionId)
+                        .update("viewCount", FieldValue.increment(1));
+
                 Intent newIntent = new Intent(context, AnswerActivity.class);
                 newIntent.putExtra("question", qList.get(holder.getAdapterPosition()));
                 //todo: add user to intent
                 //newIntent.putExtra("user", firebaseAuth.getCurrentUser());
                 context.startActivity(newIntent);
 
-                //todo: increment viewCount when user clink on this question
             }
         });
     }

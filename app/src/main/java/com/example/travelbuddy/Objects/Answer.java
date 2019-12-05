@@ -14,7 +14,7 @@ public class Answer implements Serializable {
     String userPhotoUrl;
     int vote;
     int view;
-    Date date;
+    Date dateTime;
     List<String> commentList;
 
     public Answer(){}
@@ -36,14 +36,14 @@ public class Answer implements Serializable {
     }
 
     public Answer(String answerBody, String answerId, String questionId, String userId,
-                  int vote, int view, Date date, List<String> commentList, String userName, String url) {
+                  int vote, int view, Date dateTime, List<String> commentList, String userName, String url) {
         this.answerBody = answerBody;
         this.answerId = answerId;
         this.questionId = questionId;
         this.userId = userId;
         this.vote = vote;
         this.view = view;
-        this.date = date;
+        this.dateTime = dateTime;
         this.commentList = commentList;
         this.userName = userName;
         this.userPhotoUrl = url;
@@ -97,12 +97,12 @@ public class Answer implements Serializable {
         this.view = view;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 
     public List<String> getCommentList() {
