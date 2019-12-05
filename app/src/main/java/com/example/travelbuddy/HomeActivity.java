@@ -35,8 +35,6 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    String userId;
-    DocumentReference userRef;
     User curUser;
 
     private FirebaseFirestore dbInstance;
@@ -52,9 +50,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Intent intent = getIntent();
-        userId = (String) intent.getSerializableExtra("UserId");
-
         ImageView addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +64,27 @@ public class HomeActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        curUser = ((TravelBuddyApplication) HomeActivity.this.getApplication()).getCurUser();
+        curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
+
+        dbInstance.collection("users").document(curUser.getUserId())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    System.out.println("UserRef get data failed");
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    curUser = snapshot.toObject(User.class);
+                    favoritesList = new ArrayList<>();
+                    getForums();
+                } else {
+                    System.out.println("UserRef get data failed");
+                }
+            }
+        });
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

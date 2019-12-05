@@ -31,8 +31,6 @@ import java.util.List;
 
 public class CountriesActivity extends AppCompatActivity {
 
-    String userId;
-    DocumentReference userRef;
     User curUser;
 
     private FirebaseFirestore dbInstance;
@@ -49,6 +47,7 @@ public class CountriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_countries);
 
         curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
+        System.out.println("CURRENT USER IS: " + curUser.getUserId());
 
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -64,23 +63,7 @@ public class CountriesActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        userRef = dbInstance.collection("users").document(curUser.getUserId());
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    System.out.println("UserRef get data failed");
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    curUser = snapshot.toObject(User.class);
-                } else {
-                    System.out.println("UserRef get data failed");
-                }
-            }
-        });
+        curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
 
         forumList = new ArrayList<>();
         this.getForums();
