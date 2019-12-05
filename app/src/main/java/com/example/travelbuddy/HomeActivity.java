@@ -68,27 +68,8 @@ public class HomeActivity extends AppCompatActivity {
 
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
-        if(userId == null) userId = "dMm1rpBKuvYeZ4bBqy2j";
-        userRef = dbInstance.collection("users").document(userId);
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    System.out.println("UserRef get data failed");
-                    return;
-                }
 
-                if (snapshot != null && snapshot.exists()) {
-                    curUser = snapshot.toObject(User.class);
-
-                    favoritesList = new ArrayList<>();
-                    getForums();
-                } else {
-                    System.out.println("UserRef get data failed");
-                }
-            }
-        });
+        curUser = ((TravelBuddyApplication) HomeActivity.this.getApplication()).getCurUser();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -179,7 +160,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void addCountryButtonPressed(){
         Intent intent = new Intent(this, CountriesActivity.class);
-        intent.putExtra("UserId", curUser.getUserId());
         startActivity(intent);
     }
 }

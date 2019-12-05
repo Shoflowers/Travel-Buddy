@@ -23,9 +23,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    public String userId;
-    public DocumentReference userRef;
-    public User user;
+    public User curUser;
 
     private FirebaseFirestore dbInstance;
     private DatabaseHandler dbHandler;
@@ -44,27 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.nameTextView);
         profileImageView = findViewById(R.id.profileImageView);
 
-        userId = "dMm1rpBKuvYeZ4bBqy2j";
-
-        userRef = dbInstance.collection("users").document(userId);
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    System.out.println("UserRef get data failed");
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    user = snapshot.toObject(User.class);
-
-                    loadUserUI();
-                } else {
-                    System.out.println("UserRef get data failed");
-                }
-            }
-        });
+        curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,10 +66,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void loadUserUI(){
-
-        nameTextView.setText(user.getName());
-        if(user.getProfilePhotoUrl() != null && user.getProfilePhotoUrl() != ""){
-            Picasso.get().load(user.getProfilePhotoUrl()).into(profileImageView);
+        nameTextView.setText(curUser.getName());
+        if(curUser.getProfilePhotoUrl() != null && curUser.getProfilePhotoUrl() != ""){
+            Picasso.get().load(curUser.getProfilePhotoUrl()).into(profileImageView);
         }
 
     }

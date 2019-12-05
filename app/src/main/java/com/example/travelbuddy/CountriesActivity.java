@@ -48,8 +48,7 @@ public class CountriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
 
-        Intent intent = getIntent();
-        userId = (String) intent.getSerializableExtra("UserId");
+        curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
 
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +64,7 @@ public class CountriesActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        userRef = dbInstance.collection("users").document(userId);
+        userRef = dbInstance.collection("users").document(curUser.getUserId());
         userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
