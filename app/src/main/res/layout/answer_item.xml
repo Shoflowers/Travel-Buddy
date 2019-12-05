@@ -143,16 +143,16 @@
                 app:srcCompat="@android:drawable/sym_def_app_icon" />
 
             <TextView
+                android:id="@+id/userNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/userNameTextView"
-                app:layout_constraintStart_toEndOf="@id/profileImgView"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="14dp"
-                android:layout_marginStart="5dp"
-                android:textSize="18dp"
                 android:text="Tim Meyer"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/profileImgView"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
 

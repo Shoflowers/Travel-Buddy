@@ -1,6 +1,7 @@
 package com.example.travelbuddy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,8 +32,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -106,9 +111,12 @@ public class ForumActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
                 if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    //todo: get new question data and update db
+
                     EditText qTitle = findViewById(R.id.qTitleEditText);
                     EditText qBody = findViewById(R.id.qBodyEditText);
                     //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -160,30 +168,27 @@ public class ForumActivity extends AppCompatActivity {
         Log.d("DEBUG", "qIDs: " + forum.getQuestionIds().size());
 
         final Context currContext = this;
-        qList = new LinkedList<>();
+
 
         dbInstance.collection("questions")
                 .whereEqualTo("forumId", forum.getForumId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("DEBUG", task.getResult().size() + " questions");
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                qList.add(document.toObject(ForumQuestion.class));
-                            }
-
-
-                            Log.d("DEBUG", "successfully load " + qList.size());
-
-                            questionRecyclerAdapter = new QuestionRecyclerAdapter(qList);
-                            qListView.setLayoutManager(new LinearLayoutManager(currContext));
-                            qListView.setAdapter(questionRecyclerAdapter);
-
-                        } else {
-                            Log.d("DEBUG", "Cannot get questions list.");
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("DEBUG","Listen failed");
+                            return;
                         }
+
+                        qList = new LinkedList<>();
+
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            qList.add(doc.toObject(ForumQuestion.class));
+                        }
+
+                        questionRecyclerAdapter = new QuestionRecyclerAdapter(qList);
+                        qListView.setLayoutManager(new LinearLayoutManager(currContext));
+                        qListView.setAdapter(questionRecyclerAdapter);
                     }
                 });
 
