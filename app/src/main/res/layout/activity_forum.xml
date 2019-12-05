@@ -8,7 +8,10 @@
     android:layout_height="match_parent"
     tools:context=".ForumActivity">
 
-    <include layout="@layout/forum_content" />
+    <include
+        layout="@layout/forum_content"
+        android:layout_width="match_parent"
+        android:layout_height="676dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
