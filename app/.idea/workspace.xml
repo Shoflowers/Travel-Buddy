@@ -9,40 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4986d1-9dd7-428a-bc11-5c1194fbe0e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/AnswerDetailActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/ExploreActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/ProfileActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/TravelBuddyApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/box.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/compass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/profilepic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_explore.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_profile.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/answer_detail_content.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/bottom_nav_menu.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/new_answer_bottom_sheet.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/AnswerActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/AnswerActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/AnswerRecyclerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/AnswerRecyclerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/CountriesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/CountriesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/ForumActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/ForumActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/Objects/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/Objects/Answer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/QuestionRecyclerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/travelbuddy/QuestionRecyclerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_answers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_answers.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_countries.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_countries.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_forum.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_forum.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/answer_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/answer_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/question_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/question_content.xml" afterDir="false" />
-    </list>
+    <list default="true" id="de4986d1-9dd7-428a-bc11-5c1194fbe0e2" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,6 +298,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
