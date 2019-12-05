@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,9 +47,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //loginSuccess();
+                System.out.println("LOG IN BUTTON CLICKED");
 
                 String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
+
                 if (email.isEmpty()) {
                     emailId.setError("Please enter email. ");
                     emailId.requestFocus();
@@ -56,39 +60,35 @@ public class LoginActivity extends AppCompatActivity {
                     password.setError("Please enter your password");
                     password.requestFocus();
                 } else {
-                    mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+                    System.out.println("EMAIL AND PWD NOT EMPTY");
+                    mFirebaseAuth.signInWithEmailAndPassword(email, pwd)
+                            .addOnSuccessListener(LoginActivity.this, new OnSuccessListener<AuthResult>(){
 
-
-                        @Override
-                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                            if (mFirebaseUser != null) {
-                                Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(i);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    };
+                                @Override
+                                public void onSuccess(@NonNull AuthResult authResult){
+                                    // Sign in success, update UI with the signed-in user's information
+                                    System.out.println( "signInWithEmail:success");
+                                    Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(i);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        System.out.println(  "signInWithEmail:failure" + task.getException());
+                                        Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
-
-                tvSignUp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intSignUp = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intSignUp);
-                    }
-                });
             }
         });
-    }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intSignUp = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intSignUp);
+            }
+        });
     }
 
 
