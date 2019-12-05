@@ -10,14 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -42,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView favoritesListView;
     private ForumRecyclerAdapter favoritesRecyclerAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,24 +69,28 @@ public class HomeActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        userRef = dbInstance.collection("users").document(userId);
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        curUser = ((TravelBuddyApplication) HomeActivity.this.getApplication()).getCurUser();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    System.out.println("UserRef get data failed");
-                    return;
-                }
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_favorites:
+                        break;
+                    case R.id.action_explore:
+                        Intent b = new Intent(HomeActivity.this, ExploreActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(b);
+                        break;
+                    case R.id.action_profile:
+                        Intent c = new Intent(HomeActivity.this, ProfileActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
 
-                if (snapshot != null && snapshot.exists()) {
-                    curUser = snapshot.toObject(User.class);
-
-                    favoritesList = new ArrayList<>();
-                    getForums();
-                } else {
-                    System.out.println("UserRef get data failed");
+                        break;
                 }
+                return false;
             }
         });
 
@@ -151,7 +160,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void addCountryButtonPressed(){
         Intent intent = new Intent(this, CountriesActivity.class);
-        intent.putExtra("UserId", curUser.getUserId());
         startActivity(intent);
     }
 }

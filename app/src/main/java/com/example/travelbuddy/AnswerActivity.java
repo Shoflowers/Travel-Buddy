@@ -1,14 +1,22 @@
 package com.example.travelbuddy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -21,15 +29,25 @@ import com.example.travelbuddy.Objects.ForumQuestion;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AnswerActivity extends AppCompatActivity {
 
     private ForumQuestion question;
+    private User currUser;
     private ImageView questionerImg;
     private TextView questionerUserName;
     private TextView qTitle;
@@ -39,6 +57,13 @@ public class AnswerActivity extends AppCompatActivity {
     private TextView qAnswerCount;
     private List<Answer> answerList;
     private AnswerRecyclerAdapter answerRecyclerAdapter;
+    private RecyclerView answerListView;
+    private LinearLayout bottomSheet;
+    private BottomSheetBehavior sheetBehavior;
+    private Button addBtn;
+    private Button cancelBtn;
+    private Button sendBtn;
+    private ImageView backBtn;
 
     private FirebaseFirestore dbInstance;
     private RequestQueue requestQueue;
@@ -53,7 +78,18 @@ public class AnswerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         question = (ForumQuestion) intent.getSerializableExtra("question");
 
+        //todo
+        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        backBtn = findViewById(R.id.answerBackButton);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        answerListView = findViewById(R.id.answerListView);
         questionerImg = findViewById(R.id.questionerImgView);
         questionerUserName = findViewById(R.id.userNameTextView);
         qTitle = findViewById(R.id.qTitleTextView);
@@ -61,15 +97,74 @@ public class AnswerActivity extends AppCompatActivity {
         qTimePosted = findViewById(R.id.questionTimePosted);
         qViewCount = findViewById(R.id.qViewCount);
         qAnswerCount = findViewById(R.id.qAnswerCount);
+        addBtn = findViewById(R.id.newAnswerBtn);
+        cancelBtn = findViewById(R.id.aCancelButton);
+        sendBtn = findViewById(R.id.aSendButton);
+        bottomSheet = findViewById(R.id.new_answer_bottom_sheet);
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         dbInstance = FirebaseFirestore.getInstance();
 
+        currUser = ((TravelBuddyApplication)getApplication()).getCurUser();
+
         loadQuestionData();
         loadUserData(question.getUserId());
+        loadAnswersData();
+        loadBottomSheet();
 
 
 
+    }
+
+    private void loadBottomSheet() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                    EditText aBody = findViewById(R.id.answerEditText);
+
+                    //add new question to questions collection
+                    DocumentReference addedDocRef = dbInstance.collection("answers").document();
+                    Answer newAnswer = new Answer(aBody.getText().toString(), addedDocRef.getId(),
+                            question.getQuestionId(), currUser.getUserId(), 0, 0, new Date(System.currentTimeMillis()),
+                            new LinkedList<String>(), currUser.getName(), currUser.getProfilePhotoUrl() );
+                    addedDocRef.set(newAnswer);
+
+                    //update forum and users
+                    dbInstance.collection("questions")
+                            .document(question.getQuestionId())
+                            .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
+
+                    dbInstance.collection("users")
+                            .document(currUser.getUserId())
+                            .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
+                }
+            }
+        });
     }
 
     private void loadQuestionData() {
@@ -115,6 +210,26 @@ public class AnswerActivity extends AppCompatActivity {
         final Context currContext = this;
         answerList = new LinkedList<>();
 
-        //todo
+        dbInstance.collection("answers")
+                .whereEqualTo("questionId", question.getQuestionId())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("DEBUG","Load answer list fail.");
+                            return;
+                        }
+
+                        answerList = new LinkedList<>();
+
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            answerList.add(doc.toObject(Answer.class));
+                        }
+
+                        answerRecyclerAdapter = new AnswerRecyclerAdapter(answerList);
+                        answerListView.setLayoutManager(new LinearLayoutManager(currContext));
+                        answerListView.setAdapter(answerRecyclerAdapter);
+                    }
+                });
     }
 }
