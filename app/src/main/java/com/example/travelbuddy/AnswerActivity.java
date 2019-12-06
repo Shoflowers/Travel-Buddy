@@ -164,6 +164,7 @@ public class AnswerActivity extends AppCompatActivity {
                             .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
                     //clear text
+                    aBody.setText("");
                     aBody.setHint("Write your answer ...");
                 }
             }
