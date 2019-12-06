@@ -83,8 +83,6 @@ public class AnswerRecyclerAdapter extends RecyclerView.Adapter<AnswerRecyclerAd
                 Intent newIntent = new Intent(context, AnswerDetailActivity.class);
                 newIntent.putExtra("answer", answerList.get(holder.getAdapterPosition()));
 
-                //todo: add user to intent
-                //newIntent.putExtra("user", firebaseAuth.getCurrentUser());
                 context.startActivity(newIntent);
             }
         });

@@ -38,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.ServerTimestamp;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +49,7 @@ public class AnswerActivity extends AppCompatActivity {
 
     private ForumQuestion question;
     private User currUser;
+
     private ImageView questionerImg;
     private TextView questionerUserName;
     private TextView qTitle;
@@ -78,8 +80,6 @@ public class AnswerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         question = (ForumQuestion) intent.getSerializableExtra("question");
 
-        //todo
-        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         backBtn = findViewById(R.id.answerBackButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +162,9 @@ public class AnswerActivity extends AppCompatActivity {
                     dbInstance.collection("users")
                             .document(currUser.getUserId())
                             .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
+
+                    //clear text
+                    aBody.setHint("Write your answer ...");
                 }
             }
         });
@@ -185,21 +188,7 @@ public class AnswerActivity extends AppCompatActivity {
                     questionerUserName.setText(questioner.getName());
 
                     if (!questioner.getProfilePhotoUrl().isEmpty()) {
-                        ImageRequest request = new ImageRequest(questioner.getProfilePhotoUrl(),
-                                new Response.Listener<Bitmap>() {
-                                    @Override
-                                    public void onResponse(Bitmap response) {
-                                        questionerImg.setImageBitmap(response);
-                                    }
-                                }, 40, 40, null,
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d("DEBUG", "fail to load user image");
-                                    }
-                                });
-
-                        requestQueue.add(request);
+                        Picasso.get().load(questioner.getProfilePhotoUrl()).into(questionerImg);
                     }
                 }
             }
