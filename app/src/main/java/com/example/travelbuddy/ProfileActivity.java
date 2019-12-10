@@ -47,8 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView likesTextView;
 
     private ImageView settingsButton;
-
-
+    
     private List<Forum> countriesList;
 
     @Override
