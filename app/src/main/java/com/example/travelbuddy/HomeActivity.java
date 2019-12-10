@@ -3,26 +3,23 @@ package com.example.travelbuddy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     private List<Forum> favoritesList;
     private RecyclerView favoritesListView;
     private ForumRecyclerAdapter favoritesRecyclerAdapter;
+    private CardView noCountriesView;
 
 
     @Override
@@ -60,6 +58,9 @@ public class HomeActivity extends AppCompatActivity {
 
         favoritesListView = findViewById(R.id.favoritesListView);
         favoritesListView.setHasFixedSize(true);
+
+        noCountriesView = findViewById(R.id.noCountries);
+        noCountriesView.setVisibility(View.INVISIBLE);
 
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
@@ -124,6 +125,11 @@ public class HomeActivity extends AppCompatActivity {
                                     favoritesList.add(document.toObject(Forum.class));
                                 }
                             }
+                            if(favoritesList.isEmpty()){
+                                noCountriesView.setVisibility(View.VISIBLE);
+                            }else{
+                                noCountriesView.setVisibility(View.INVISIBLE);
+                            }
                             setUpRecylcerView();
                         } else {
                             System.out.println("get failed with " + task.getException());
@@ -138,11 +144,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override public void onPositionClicked(int position) {
                 forumButtonPressed(favoritesList.get(position));
             }
-            @Override public void onButtonClicked(int position) { }
-            @Override public void onDeleteItem(int position) {
-                favoritesList.remove(position);
+            @Override public void onButtonClicked(Forum forum) { }
+            @Override public void onDeleteItem(Forum forum) {
+                favoritesList.remove(favoritesList.indexOf(forum));
                 List<String> forumIds = curUser.getForumIds();
-                forumIds.remove(position);
+                forumIds.remove(forumIds.indexOf(forum.getForumId()));
                 curUser.setForumIds(forumIds);
                 dbHandler.updateUser(curUser);
             }
