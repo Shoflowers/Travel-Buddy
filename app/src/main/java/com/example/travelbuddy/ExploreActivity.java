@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,8 +44,9 @@ public class ExploreActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
-        countriesView = findViewById(R.id.favCountriesView);
+        countriesView = findViewById(R.id.popularCountriesView);
 
+        loadPopularCountries();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -66,8 +71,8 @@ public class ExploreActivity extends AppCompatActivity {
             }
         });
     }
-    /**
-    public void loadFavoriteCountries(){
+
+    public void loadPopularCountries(){
         dbInstance.collection("forums")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -77,20 +82,35 @@ public class ExploreActivity extends AppCompatActivity {
                             return;
                         }
 
-                        countriesList = new LinkedList<>();
+                        List<Forum> allCountries = new ArrayList<Forum>();
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             Forum forum = doc.toObject(Forum.class);
-                            if(curUser.getForumIds().contains(forum.getForumId())){
-                                countriesList.add(forum);
-                            }
+                            allCountries.add(forum);
                         }
 
-                        favCountriesView.setLayoutManager(new GridLayoutManager(ProfileActivity.this, 2));
-                        countryAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
-                        favCountriesView.setAdapter(countryAdapter);
+                        Collections.sort(allCountries, new Comparator<Forum>() {
+                            @Override
+                            public int compare(Forum f1, Forum f2) {
+                                return -Integer.compare(f1.getQuestionIds().size(), f2.getQuestionIds().size());
+                            }
+                        });
+
+                        countriesList = allCountries.subList(0,6);
+
+                        countriesView.setLayoutManager(new GridLayoutManager(ExploreActivity.this, 2));
+                        countryAdapter = new CountryAdapter(countriesList, new ClickListener() {
+                            @Override public void onPositionClicked(int position) {
+                                Forum forum = countriesList.get(position);
+                                Intent intent = new Intent(ExploreActivity.this, ForumActivity.class);
+                                intent.putExtra("Forum", forum);
+                                startActivity(intent);
+                            }
+                            @Override public void onButtonClicked(Forum forum) { }
+                            @Override public void onDeleteItem(Forum forum) { }
+                        });
+                        countriesView.setAdapter(countryAdapter);
 
                     }
                 });
     }
-     */
 }

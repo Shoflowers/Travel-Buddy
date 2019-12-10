@@ -24,16 +24,29 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:paddingStart="20dp"
+                android:paddingTop="10dp"
                 android:text="Countries"
-                android:textSize="22sp" />
+                android:textSize="25sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularCountriesView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:paddingStart="20dp"
-                android:paddingEnd="20dp" />
+                android:paddingTop="10dp"
+                android:text="Questions"
+                android:textSize="25sp" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
