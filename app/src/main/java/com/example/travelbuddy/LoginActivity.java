@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         Button logInButton = findViewById(R.id.logInButton);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        System.out.println(user);
         if (user != null) {
             // User is signed in
             User curUser = ((TravelBuddyApplication) LoginActivity.this.getApplication()).getCurUser();

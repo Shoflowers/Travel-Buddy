@@ -2,9 +2,9 @@ package com.example.travelbuddy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.opencensus.stats.Aggregation;
+
 public class ProfileActivity extends AppCompatActivity {
 
     public User curUser;
@@ -47,7 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView likesTextView;
 
     private ImageView settingsButton;
-
+    private RecyclerView favCountriesView;
+    private CountryAdapter countryAdapter;
 
     private List<Forum> countriesList;
 
@@ -58,6 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
+
+        favCountriesView = findViewById(R.id.favCountriesView);
 
         nameTextView = findViewById(R.id.nameTextView);
         profileImageView = findViewById(R.id.profileImageView);
@@ -163,7 +168,6 @@ public class ProfileActivity extends AppCompatActivity {
     public void loadFavoriteCountries(){
         if(!curUser.getForumIds().isEmpty()) {
             dbInstance.collection("forums")
-                    .whereIn("forumId", curUser.getForumIds())
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -174,11 +178,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                             countriesList = new LinkedList<>();
                             for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                                countriesList.add(doc.toObject(Forum.class));
+                                Forum forum = doc.toObject(Forum.class);
+                                if(curUser.getForumIds().contains(forum.getForumId())){
+                                    countriesList.add(forum);
+                                }
                             }
-                            GridView gridView = findViewById(R.id.countryGridList);
-                            CountryAdapter booksAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
-                            gridView.setAdapter(booksAdapter);
+
+                            favCountriesView.setLayoutManager(new GridLayoutManager(ProfileActivity.this, 2));
+                            countryAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
+                            favCountriesView.setAdapter(countryAdapter);
+
                         }
                     });
         }

@@ -146,11 +146,15 @@ public class HomeActivity extends AppCompatActivity {
             }
             @Override public void onButtonClicked(Forum forum) { }
             @Override public void onDeleteItem(Forum forum) {
-                favoritesList.remove(favoritesList.indexOf(forum));
+                if(!favoritesList.isEmpty() && favoritesList.contains(forum)){
+                    favoritesList.remove(favoritesList.indexOf(forum));
+                }
                 List<String> forumIds = curUser.getForumIds();
-                forumIds.remove(forumIds.indexOf(forum.getForumId()));
-                curUser.setForumIds(forumIds);
-                dbHandler.updateUser(curUser);
+                if(!forumIds.isEmpty() && forumIds.contains(forum.getForumId())) {
+                    forumIds.remove(forumIds.indexOf(forum.getForumId()));
+                    curUser.setForumIds(forumIds);
+                    dbHandler.updateUser(curUser);
+                }
             }
         };
         favoritesRecyclerAdapter = new ForumRecyclerAdapter(favoritesList, mylistener, false);
