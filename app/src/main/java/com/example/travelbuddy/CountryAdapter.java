@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.squareup.picasso.Picasso;
 
@@ -18,11 +19,11 @@ import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> {
 
-    private final Context mContext;
     private final List<Forum> forumList;
+    private ClickListener listener;
 
-    public CountryAdapter(Context context, List<Forum> forumList) {
-        this.mContext = context;
+    public CountryAdapter(List<Forum> forumList, ClickListener listener) {
+        this.listener = listener;
         this.forumList = forumList;
     }
 
@@ -42,6 +43,13 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
         if(curForum.getPhotoUrl()!=null && curForum.getPhotoUrl()!=""){
             holder.setImageView(curForum.getPhotoUrl());
         }
+
+        holder.forumView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onPositionClicked(holder.getAdapterPosition());
+            }
+        });
 
     }
 

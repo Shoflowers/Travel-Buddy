@@ -16,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.ForumQuestion;
 import com.example.travelbuddy.Objects.User;
@@ -184,8 +185,19 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                             }
 
+                            ClickListener mylistener = new ClickListener() {
+                                @Override public void onPositionClicked(int position) {
+                                    Forum forum = countriesList.get(position);
+                                    Intent intent = new Intent(ProfileActivity.this, ForumActivity.class);
+                                    intent.putExtra("Forum", forum);
+                                    startActivity(intent);
+                                }
+                                @Override public void onButtonClicked(Forum forum) { }
+                                @Override public void onDeleteItem(Forum forum) { }
+                            };
+
                             favCountriesView.setLayoutManager(new GridLayoutManager(ProfileActivity.this, 2));
-                            countryAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
+                            countryAdapter = new CountryAdapter( countriesList, mylistener);
                             favCountriesView.setAdapter(countryAdapter);
 
                         }
