@@ -66,7 +66,7 @@ public class ExploreActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
     public void loadFavoriteCountries(){
         dbInstance.collection("forums")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -92,4 +92,5 @@ public class ExploreActivity extends AppCompatActivity {
                     }
                 });
     }
+     */
 }

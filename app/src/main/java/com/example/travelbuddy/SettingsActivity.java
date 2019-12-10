@@ -15,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.travelbuddy.Objects.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -91,6 +95,32 @@ public class SettingsActivity extends AppCompatActivity {
         if(curUser.getProfilePhotoUrl() != null && curUser.getProfilePhotoUrl() != ""){
             Picasso.get().load(curUser.getProfilePhotoUrl()).into(profileImageView);
         }
+    }
+
+    public void deleteAccount(View view){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        System.out.println(user);
+        System.out.println("Button clicked");
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            System.out.println("User account deleted.");
+                            ((TravelBuddyApplication) SettingsActivity.this.getApplication()).setCurUser(null);
+                            Intent i = new Intent(SettingsActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                    }
+                });
+    }
+
+    public void logOut(View view){
+        FirebaseAuth.getInstance().signOut();
+        ((TravelBuddyApplication) SettingsActivity.this.getApplication()).setCurUser(null);
+        //((TravelBuddyApplication) LoginActivity.class.getClasses().setCurUser(null);
+        Intent i = new Intent(SettingsActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
     public void confirmSettings(){

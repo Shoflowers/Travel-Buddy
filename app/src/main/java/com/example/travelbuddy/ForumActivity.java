@@ -41,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 
 import java.lang.reflect.Field;
@@ -143,6 +144,8 @@ public class ForumActivity extends AppCompatActivity {
                             .update("questionIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
                     //clear text
+                    qTitle.setText("");
+                    qBody.setText("");
                     qTitle.setHint("Title");
                     qBody.setHint("Write your question ...");
 
@@ -226,21 +229,9 @@ public class ForumActivity extends AppCompatActivity {
     }
 
     private void loadImage(String url) {
-        ImageRequest request = new ImageRequest(url,
-            new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    countryImgView.setImageBitmap(response);
-                }
-        }, 1440, 480, null,
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("DEBUG", "fail to load country image");
-                }
-            });
-
-        requestQueue.add(request);
+        if (url != null && !url.isEmpty()) {
+            Picasso.get().load(url).into(countryImgView);
+        }
     }
 
     private void getDefaultData() {
