@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -91,6 +92,14 @@ public class SettingsActivity extends AppCompatActivity {
         if(curUser.getProfilePhotoUrl() != null && curUser.getProfilePhotoUrl() != ""){
             Picasso.get().load(curUser.getProfilePhotoUrl()).into(profileImageView);
         }
+    }
+
+    public void logOut(View view){
+        FirebaseAuth.getInstance().signOut();
+        ((TravelBuddyApplication) SettingsActivity.this.getApplication()).setCurUser(null);
+        //((TravelBuddyApplication) LoginActivity.class.getClasses().setCurUser(null);
+        Intent i = new Intent(SettingsActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
     public void confirmSettings(){

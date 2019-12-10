@@ -191,6 +191,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="10dp"
         android:text="Log Out"
+        android:onClick="logOut"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
