@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
@@ -181,12 +183,22 @@ public class CountriesActivity extends AppCompatActivity {
     public void addForum(Forum newForum){
         List<String> curForums = curUser.getForumIds();
         if(!curForums.contains(newForum.getForumId())) {
+            Toast toast = Toast.makeText(CountriesActivity.this,
+                    newForum.getCountryName().toUpperCase() + " added to Favorites."
+                    , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,0,200);
+            toast.show();
 
             curForums.add(newForum.getForumId());
             curUser.setForumIds(curForums);
 
             dbHandler.updateUser(curUser);
-
+        }else{
+            Toast toast = Toast.makeText(CountriesActivity.this,
+                    newForum.getCountryName().toUpperCase() + " already in Favorites."
+                    , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,0,200);
+            toast.show();
         }
     }
 
