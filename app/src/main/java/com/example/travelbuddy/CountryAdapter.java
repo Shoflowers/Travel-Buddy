@@ -8,23 +8,53 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CountryAdapter extends BaseAdapter {
+public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> {
 
-    private final Context mContext;
     private final List<Forum> forumList;
+    private ClickListener listener;
 
-    public CountryAdapter(Context context, List<Forum> forumList) {
-        this.mContext = context;
+    public CountryAdapter(List<Forum> forumList, ClickListener listener) {
+        this.listener = listener;
         this.forumList = forumList;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public CountryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.country_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final CountryAdapter.ViewHolder holder, int position) {
+        Forum curForum = forumList.get(position);
+
+        holder.setCountryName(curForum.getCountryName());
+
+        if(curForum.getPhotoUrl()!=null && curForum.getPhotoUrl()!=""){
+            holder.setImageView(curForum.getPhotoUrl());
+        }
+
+        holder.forumView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onPositionClicked(holder.getAdapterPosition());
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
         return forumList.size();
     }
 
@@ -33,29 +63,27 @@ public class CountryAdapter extends BaseAdapter {
         return 0;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+        private View forumView;
+        private TextView countryName;
+        private ImageView countryImageView;
 
-        final Forum forum = forumList.get(position);
 
-        if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.country_item, null);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            forumView = itemView;
         }
 
-        final ImageView imageView = (ImageView)convertView.findViewById(R.id.countryImageView);
-        final TextView nameTextView = (TextView)convertView.findViewById(R.id.nameTextView);
-
-        if(forum.getPhotoUrl() != null && forum.getPhotoUrl() != "") {
-            Picasso.get().load(forum.getPhotoUrl()).into(imageView);
+        public void setCountryName(String name) {
+            countryName = forumView.findViewById(R.id.nameTextView);
+            countryName.setText(name.toUpperCase());
         }
-        nameTextView.setText(forum.getCountryName().toUpperCase());
 
-        return convertView;
+        public void setImageView(String url){
+            countryImageView = forumView.findViewById(R.id.countryImageView);
+            Picasso.get().load(url).into(countryImageView);
+        }
+
     }
 }
