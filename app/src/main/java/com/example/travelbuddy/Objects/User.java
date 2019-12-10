@@ -10,12 +10,13 @@ public class User implements Serializable {
     private String email;
     private String profilePhotoUrl;
     private String userId;
+    private String profileBio;
     private List<String> forumIds;
     private List<String> questionIds;
     private List<String> answerIds;
 
     public User(String username, String name, String email, String profilePhotoUrl,
-                String userId, List<String> forumIds, List<String> questionIds, List<String> answerIds) {
+                String userId, List<String> forumIds, List<String> questionIds, List<String> answerIds, String profileBio) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -24,6 +25,7 @@ public class User implements Serializable {
         this.forumIds = forumIds;
         this.questionIds = questionIds;
         this.answerIds = answerIds;
+        this.profileBio = profileBio;
     }
 
     public User(){}
@@ -90,5 +92,13 @@ public class User implements Serializable {
 
     public void setAnswerIds(List<String> answerIds) {
         this.answerIds = answerIds;
+    }
+
+    public String getProfileBio() {
+        return profileBio;
+    }
+
+    public void setProfileBio(String profileBio) {
+        this.profileBio = profileBio;
     }
 }

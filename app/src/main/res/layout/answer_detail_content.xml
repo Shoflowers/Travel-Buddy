@@ -43,7 +43,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/changePictureButton"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="15dp"
@@ -72,7 +72,7 @@
                 android:text="name"
                 android:textColor="#000000"
                 android:textSize="24dp"
-                app:layout_constraintStart_toEndOf="@id/cardView"
+                app:layout_constraintStart_toEndOf="@id/changePictureButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
@@ -127,7 +127,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardView" />
+                app:layout_constraintTop_toBottomOf="@id/changePictureButton" />
 
             <TextView
                 android:id="@+id/aDetailTimePostedTextView"

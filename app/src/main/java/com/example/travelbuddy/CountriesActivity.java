@@ -1,32 +1,33 @@
 package com.example.travelbuddy;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CountriesActivity extends AppCompatActivity {
@@ -40,6 +41,11 @@ public class CountriesActivity extends AppCompatActivity {
 
     private RecyclerView forumListView;
     private ForumRecyclerAdapter forumRecyclerAdapter;
+    private EditText searchBar;
+    private TextView titleText;
+    private ImageView searchButton;
+    private ImageView searchIcon;
+    private ImageView cancelSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,6 @@ public class CountriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_countries);
 
         curUser = ((TravelBuddyApplication) this.getApplication()).getCurUser();
-        System.out.println("CURRENT USER IS: " + curUser.getUserId());
 
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +65,53 @@ public class CountriesActivity extends AppCompatActivity {
         forumListView = findViewById(R.id.countryListView);
         forumListView.setHasFixedSize(true);
 
+        searchBar = findViewById(R.id.searchEditText);
+        searchBar.setVisibility(View.INVISIBLE);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                forumRecyclerAdapter.getFilter().filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        searchIcon = findViewById(R.id.searchIcon);
+        searchIcon.setVisibility(View.INVISIBLE);
+
+        cancelSearchButton = findViewById(R.id.cancelIcon);
+        cancelSearchButton.setVisibility(View.INVISIBLE);
+        cancelSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.setText("");
+                titleText.setVisibility(View.VISIBLE);
+                searchBar.setVisibility(View.INVISIBLE);
+                searchIcon.setVisibility(View.INVISIBLE);
+                searchButton.setVisibility(View.VISIBLE);
+                cancelSearchButton.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        titleText = findViewById(R.id.titleText);
+        titleText.setVisibility(View.VISIBLE);
+
+        searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                titleText.setVisibility(View.INVISIBLE);
+                searchBar.setVisibility(View.VISIBLE);
+                searchIcon.setVisibility(View.VISIBLE);
+                searchButton.setVisibility(View.INVISIBLE);
+                cancelSearchButton.setVisibility(View.VISIBLE);
+            }
+        });
+
         dbHandler = new DatabaseHandler();
         dbInstance = dbHandler.getDbInstance();
 
@@ -67,6 +119,32 @@ public class CountriesActivity extends AppCompatActivity {
 
         forumList = new ArrayList<>();
         this.getForums();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_favorites:
+                        Intent a = new Intent(CountriesActivity.this, HomeActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(a);
+                        break;
+                    case R.id.action_explore:
+                        Intent b = new Intent(CountriesActivity.this, ExploreActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(b);
+                        break;
+                    case R.id.action_profile:
+                        Intent c = new Intent(CountriesActivity.this, ProfileActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
+
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -83,10 +161,10 @@ public class CountriesActivity extends AppCompatActivity {
 
                             ClickListener mylistener = new ClickListener() {
                                 @Override public void onPositionClicked(int position) { }
-                                @Override public void onButtonClicked(int position) {
-                                    addForum(forumList.get(position));
+                                @Override public void onButtonClicked(Forum forum) {
+                                    addForum(forum);
                                 }
-                                @Override public void onDeleteItem(int position) { }
+                                @Override public void onDeleteItem(Forum forum) { }
                             };
                             forumRecyclerAdapter = new ForumRecyclerAdapter(forumList, mylistener, true);
 

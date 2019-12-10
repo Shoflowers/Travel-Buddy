@@ -43,6 +43,18 @@ public class LoginActivity extends AppCompatActivity {
 
         Button logInButton = findViewById(R.id.logInButton);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            User curUser = ((TravelBuddyApplication) LoginActivity.this.getApplication()).getCurUser();
+            if (curUser != null) {
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(i);
+            } else {
+                loginSuccess();
+            }
+        }
+
         final Activity curActivity = this;
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
