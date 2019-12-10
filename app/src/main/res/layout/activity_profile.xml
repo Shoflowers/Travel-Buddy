@@ -19,40 +19,163 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-    <View
-        android:id="@+id/view3"
-        android:layout_width="1dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="30dp"
-        android:alpha="0.5"
-        android:background="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/profileTextView3"
-        app:layout_constraintEnd_toStartOf="@+id/profileTextView3"
-        app:layout_constraintTop_toTopOf="@+id/numAnswers" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileTextView">
 
-    <View
-        android:id="@+id/view4"
-        android:layout_width="1dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="30dp"
-        android:alpha="0.5"
-        android:background="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/profileTextView3"
-        app:layout_constraintStart_toEndOf="@+id/profileTextView3"
-        app:layout_constraintTop_toTopOf="@+id/numAnswers" />
 
-    <TextView
-        android:id="@+id/profileTextView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:text="Likes"
-        android:textColor="#E8000000"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/numLikes"
-        app:layout_constraintStart_toStartOf="@+id/numLikes"
-        app:layout_constraintTop_toBottomOf="@+id/numLikes" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="1dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="30dp"
+                    android:alpha="0.5"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/profileTextView3"
+                    app:layout_constraintStart_toEndOf="@+id/profileTextView3"
+                    app:layout_constraintTop_toTopOf="@+id/numAnswers" />
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="1dp"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="30dp"
+                    android:alpha="0.5"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/profileTextView3"
+                    app:layout_constraintEnd_toStartOf="@+id/profileTextView3"
+                    app:layout_constraintTop_toTopOf="@+id/numAnswers" />
+
+                <TextView
+                    android:id="@+id/profileTextView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="Likes"
+                    android:textColor="#E8000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/numLikes"
+                    app:layout_constraintStart_toStartOf="@+id/numLikes"
+                    app:layout_constraintTop_toBottomOf="@+id/numLikes" />
+
+                <TextView
+                    android:id="@+id/profileTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="Questions"
+                    android:textColor="#E8000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/numQuestions"
+                    app:layout_constraintHorizontal_bias="0.525"
+                    app:layout_constraintStart_toStartOf="@+id/numQuestions"
+                    app:layout_constraintTop_toBottomOf="@+id/numQuestions" />
+
+                <TextView
+                    android:id="@+id/profileTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="Answers"
+                    android:textColor="#E8000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/numAnswers"
+                    app:layout_constraintStart_toStartOf="@+id/numAnswers"
+                    app:layout_constraintTop_toBottomOf="@+id/numAnswers" />
+
+                <TextView
+                    android:id="@+id/numQuestions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#E8000000"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toStartOf="@+id/view3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/numAnswers" />
+
+                <TextView
+                    android:id="@+id/numLikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#E8000000"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/view4"
+                    app:layout_constraintTop_toTopOf="@+id/numAnswers" />
+
+                <TextView
+                    android:id="@+id/numAnswers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="0"
+                    android:textColor="#E8000000"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/profileTextView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="20dp"
+                android:text="Favorite Countries"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favCountriesView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <GridView
+                android:id="@+id/countryGridList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="10dp"
+                android:columnWidth="190dp"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:nestedScrollingEnabled="true"
+                android:numColumns="2"
+                android:scrollbars="vertical"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp">
+
+            </GridView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/profileTextView"
@@ -68,47 +191,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
-    <TextView
-        android:id="@+id/profileTextView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Favorite Countries"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView3" />
-
-    <TextView
-        android:id="@+id/profileTextView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:text="Questions"
-        android:textColor="#E8000000"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/numQuestions"
-        app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toStartOf="@+id/numQuestions"
-        app:layout_constraintTop_toBottomOf="@+id/numQuestions" />
-
-    <TextView
-        android:id="@+id/profileTextView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:text="Answers"
-        android:textColor="#E8000000"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/numAnswers"
-        app:layout_constraintStart_toStartOf="@+id/numAnswers"
-        app:layout_constraintTop_toBottomOf="@+id/numAnswers" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -173,8 +255,8 @@
 
         <ImageView
             android:id="@+id/profileImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/profilepic" />
     </androidx.cardview.widget.CardView>
@@ -192,62 +274,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePictureButton" />
-
-    <TextView
-        android:id="@+id/numQuestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="0"
-        android:textColor="#E8000000"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView" />
-
-    <TextView
-        android:id="@+id/numLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="0"
-        android:textColor="#E8000000"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/view4"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView" />
-
-    <TextView
-        android:id="@+id/numAnswers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="0"
-        android:textColor="#E8000000"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView" />
-
-    <GridView
-        android:id="@+id/countryGridList"
-        android:layout_width="0dp"
-        android:layout_height="240dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="10dp"
-        android:columnWidth="190dp"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView5"
-        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
