@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -50,10 +52,14 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView likesTextView;
 
     private ImageView settingsButton;
+
     private RecyclerView favCountriesView;
     private CountryAdapter countryAdapter;
+    private RecyclerView recQuestionView;
+    private QuestionRecyclerAdapter recQuestionAdapter;
 
     private List<Forum> countriesList;
+    private List<ForumQuestion> qList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         dbInstance = dbHandler.getDbInstance();
 
         favCountriesView = findViewById(R.id.favCountriesView);
+        recQuestionView = findViewById(R.id.recentQuestionView);
 
         nameTextView = findViewById(R.id.nameTextView);
         profileImageView = findViewById(R.id.profileImageView);
@@ -85,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
         loadUserUI();
 
         loadFavoriteCountries();
+
+        loadRecentQuestions();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -173,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                             if (e != null) {
-                                Log.d("DEBUG", "Listen failed");
+                                Log.d("DEBUG", "Forums loading failed");
                                 return;
                             }
 
@@ -205,4 +214,38 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    public void loadRecentQuestions() {
+
+        Log.d("DEBUG", "loading recent questions.");
+        if (curUser.getQuestionIds() != null && !curUser.getQuestionIds().isEmpty()) {
+            List<String> qIds = curUser.getQuestionIds();
+            if (qIds.size() > 10) {
+                qIds = qIds.subList(qIds.size() - 10, qIds.size());
+            }
+
+            dbInstance.collection("questions")
+                    .whereIn("questionId", qIds)
+                    .orderBy("dateTime", Query.Direction.DESCENDING)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.d("DEBUG", "Rec question loading failed");
+                                return;
+                            }
+
+                            qList = new LinkedList<>();
+                            for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                                ForumQuestion question = doc.toObject(ForumQuestion.class);
+                                qList.add(question);
+                            }
+
+                            recQuestionView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
+                            recQuestionAdapter = new QuestionRecyclerAdapter(qList);
+                            recQuestionView.setAdapter(recQuestionAdapter);
+
+                        }
+                    });
+        }
+    }
 }

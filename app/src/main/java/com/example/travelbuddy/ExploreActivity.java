@@ -4,20 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.travelbuddy.Objects.ClickListener;
 import com.example.travelbuddy.Objects.Forum;
+import com.example.travelbuddy.Objects.ForumQuestion;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -30,9 +34,12 @@ public class ExploreActivity extends AppCompatActivity {
 
     private RecyclerView countriesView;
     private CountryAdapter countryAdapter;
+    private RecyclerView questionsView;
+    private QuestionRecyclerAdapter questionRecyclerAdapter;
 
     private FirebaseFirestore dbInstance;
     private DatabaseHandler dbHandler;
+    private List<ForumQuestion> qList;
 
     private List<Forum> countriesList;
 
@@ -45,8 +52,10 @@ public class ExploreActivity extends AppCompatActivity {
         dbInstance = dbHandler.getDbInstance();
 
         countriesView = findViewById(R.id.popularCountriesView);
+        questionsView = findViewById(R.id.popularQuestionView);
 
         loadPopularCountries();
+        loadPopularQuestion();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -112,5 +121,29 @@ public class ExploreActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void loadPopularQuestion(){
+        dbInstance.collection("questions")
+                .orderBy("viewCount", Query.Direction.DESCENDING)
+                .limit(20)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("DEBUG", "load popular questions fail.");
+                        }
+
+                        qList = new LinkedList<>();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            qList.add(doc.toObject(ForumQuestion.class));
+                        }
+
+                        questionsView.setLayoutManager(new LinearLayoutManager(ExploreActivity.this));
+                        questionRecyclerAdapter = new QuestionRecyclerAdapter(qList);
+                        questionsView.setAdapter(questionRecyclerAdapter);
+                    }
+                });
+
     }
 }
