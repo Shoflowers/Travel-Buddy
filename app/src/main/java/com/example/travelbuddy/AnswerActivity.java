@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.travelbuddy.Objects.Answer;
+import com.example.travelbuddy.Objects.Comment;
 import com.example.travelbuddy.Objects.ForumQuestion;
 import com.example.travelbuddy.Objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -164,6 +165,7 @@ public class AnswerActivity extends AppCompatActivity {
                             .update("answerIds", FieldValue.arrayUnion(addedDocRef.getId()));
 
                     //clear text
+                    aBody.setText("");
                     aBody.setHint("Write your answer ...");
                 }
             }

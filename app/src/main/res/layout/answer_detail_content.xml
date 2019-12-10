@@ -140,13 +140,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/answerDetailTextView" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/viewCommentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:text="Comments (num)"
-                android:textColor="#000000"
+                android:text="View all comments"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aDetailTimePostedTextView" />
 
