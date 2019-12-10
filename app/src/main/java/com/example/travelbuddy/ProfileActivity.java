@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -52,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView settingsButton;
     private RecyclerView favCountriesView;
     private CountryAdapter countryAdapter;
-
 
     private List<Forum> countriesList;
 
@@ -190,11 +188,6 @@ public class ProfileActivity extends AppCompatActivity {
                             countryAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
                             favCountriesView.setAdapter(countryAdapter);
 
-                            /**
-                            GridView gridView = findViewById(R.id.countryGridList);
-                            CountryAdapter booksAdapter = new CountryAdapter(ProfileActivity.this, countriesList);
-                            gridView.setAdapter(booksAdapter);
-                             */
                         }
                     });
         }
