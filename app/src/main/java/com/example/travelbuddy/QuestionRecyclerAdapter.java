@@ -23,6 +23,7 @@ import java.util.List;
 public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> {
 
     public List<ForumQuestion> qList;
+    //public List<ForumQuestion> filteredQList;
     public Context context;
 
     private FirebaseFirestore firebaseFirestore;
@@ -30,6 +31,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
     public QuestionRecyclerAdapter(List<ForumQuestion> qList) {
         this.qList = qList;
+        //this.filteredQList = qList;
     }
 
     @NonNull
