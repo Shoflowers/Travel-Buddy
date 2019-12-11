@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +68,11 @@ public class ForumActivity extends AppCompatActivity {
     private Button cancelBtn;
     private Button sendBtn;
     private Button addBtn;
+
+    private EditText searchBar;
+    private ImageView searchButton;
+    private ImageView searchIcon;
+    private ImageView cancelSearchButton;
 
     private DatabaseHandler dbHandler;
     private FirebaseFirestore dbInstance;
@@ -193,6 +200,47 @@ public class ForumActivity extends AppCompatActivity {
         loadImage(forum.getPhotoUrl());
 
         loadData(forum);
+
+        searchBar = findViewById(R.id.searchEditText3);
+        searchBar.setVisibility(View.INVISIBLE);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                questionRecyclerAdapter.getFilter().filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        searchIcon = findViewById(R.id.searchIcon3);
+        searchIcon.setVisibility(View.INVISIBLE);
+
+        cancelSearchButton = findViewById(R.id.cancelIcon3);
+        cancelSearchButton.setVisibility(View.INVISIBLE);
+        cancelSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.setText("");
+                searchBar.setVisibility(View.INVISIBLE);
+                searchIcon.setVisibility(View.INVISIBLE);
+                searchButton.setVisibility(View.VISIBLE);
+                cancelSearchButton.setVisibility(View.INVISIBLE);
+            }
+        });
+        searchButton = findViewById(R.id.searchButton3);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.setVisibility(View.VISIBLE);
+                searchIcon.setVisibility(View.VISIBLE);
+                searchButton.setVisibility(View.INVISIBLE);
+                cancelSearchButton.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 

@@ -11,18 +11,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> {
+public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.ViewHolder> implements Filterable {
 
     public List<ForumQuestion> qList;
+    public List<ForumQuestion> filteredQList;
     public Context context;
 
     private FirebaseFirestore firebaseFirestore;
@@ -30,6 +35,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
     public QuestionRecyclerAdapter(List<ForumQuestion> qList) {
         this.qList = qList;
+        this.filteredQList = qList;
     }
 
     @NonNull
@@ -46,7 +52,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
-        ForumQuestion curr = qList.get(position);
+        ForumQuestion curr = filteredQList.get(position);
         final String currQuestionId = curr.getQuestionId();
 
         Log.d("qListItem", "In binding view");
@@ -90,7 +96,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
                         .update("viewCount", FieldValue.increment(1));
 
                 Intent newIntent = new Intent(context, AnswerActivity.class);
-                newIntent.putExtra("question", qList.get(holder.getAdapterPosition()));
+                newIntent.putExtra("question", filteredQList.get(holder.getAdapterPosition()));
                 //todo: add user to intent
                 //newIntent.putExtra("user", firebaseAuth.getCurrentUser());
                 context.startActivity(newIntent);
@@ -101,7 +107,52 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
     @Override
     public int getItemCount() {
-        return qList.size();
+        return filteredQList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        final Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,FilterResults results) {
+                filteredQList = (LinkedList<ForumQuestion>) results.values; // has the filtered values
+                notifyDataSetChanged();  // notifies the data with new filtered values
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                LinkedList<ForumQuestion> FilteredArrList = new LinkedList<>();
+
+                if (qList == null) {
+                    qList = new LinkedList<>(filteredQList); // saves the original data in mOriginalValues
+                }
+                if (constraint == null || constraint.length() == 0) {
+
+                    // set the Original result to return
+                    results.count = qList.size();
+                    results.values = qList;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < qList.size(); i++) {
+                        String questionTitle = qList.get(i).getQuestionTitle();
+                        String questionBody = qList.get(i).getQuestionBody();
+                        if (questionTitle.toLowerCase().contains(constraint.toString()) ||
+                                questionBody.toLowerCase().contains(constraint.toString())) {
+                            FilteredArrList.add(qList.get(i));
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+                }
+                return results;
+            }
+        };
+        return filter;
     }
 
 

@@ -20,6 +20,55 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/city" />
 
+    <ImageView
+        android:id="@+id/cancelIcon3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cancel" />
+
+    <ImageView
+        android:id="@+id/searchButton3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/searchicon" />
+
+    <ImageView
+        android:id="@+id/searchIcon3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchEditText3"
+        app:layout_constraintStart_toStartOf="@+id/searchEditText3"
+        app:layout_constraintTop_toTopOf="@+id/searchEditText3"
+        app:srcCompat="@drawable/searchicon" />
+
+    <EditText
+        android:id="@+id/searchEditText3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
+        android:hint="Search Questions"
+
+        android:inputType="textPersonName"
+        android:paddingLeft="38dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/countryNameTextView"
         android:layout_width="wrap_content"
@@ -30,7 +79,8 @@
         app:layout_constraintBottom_toBottomOf="@id/countryImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/countryImageView" />
+        app:layout_constraintTop_toTopOf="@id/countryImageView"
+        app:layout_constraintVertical_bias="0.62" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/question_list_view"

@@ -20,6 +20,7 @@
         <activity android:name=".CountriesActivity" />
         <activity android:name=".ForumActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".SignUp" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
