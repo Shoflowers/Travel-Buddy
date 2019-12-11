@@ -43,6 +43,8 @@ import com.google.firebase.firestore.ServerTimestamp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -204,7 +206,6 @@ public class AnswerActivity extends AppCompatActivity {
 
         dbInstance.collection("answers")
                 .whereEqualTo("questionId", question.getQuestionId())
-                .orderBy("vote", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -218,6 +219,13 @@ public class AnswerActivity extends AppCompatActivity {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             answerList.add(doc.toObject(Answer.class));
                         }
+
+                        Collections.sort(answerList, new Comparator<Answer>() {
+                            @Override
+                            public int compare(Answer answer, Answer t1) {
+                                return - Integer.compare(answer.getVote(), t1.getVote());
+                            }
+                        });
 
                         answerRecyclerAdapter = new AnswerRecyclerAdapter(answerList);
                         answerListView.setLayoutManager(new LinearLayoutManager(currContext));
