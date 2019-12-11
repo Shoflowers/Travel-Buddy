@@ -59,7 +59,7 @@
         android:layout_marginEnd="50dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
-        android:hint="Search Countries"
+        android:hint="Search Questions"
 
         android:inputType="textPersonName"
         android:paddingLeft="38dp"

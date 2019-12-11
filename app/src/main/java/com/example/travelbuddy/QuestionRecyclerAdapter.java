@@ -138,8 +138,10 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < qList.size(); i++) {
-                        String data = qList.get(i).getQuestionTitle();
-                        if (data.toLowerCase().contains(constraint.toString())) {
+                        String questionTitle = qList.get(i).getQuestionTitle();
+                        String questionBody = qList.get(i).getQuestionBody();
+                        if (questionTitle.toLowerCase().contains(constraint.toString()) ||
+                                questionBody.toLowerCase().contains(constraint.toString())) {
                             FilteredArrList.add(qList.get(i));
                         }
                     }
