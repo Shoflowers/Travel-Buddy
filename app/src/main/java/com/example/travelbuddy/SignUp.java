@@ -42,7 +42,7 @@ public class SignUp extends AppCompatActivity {
         emailId = findViewById(R.id.emailText);
         password = findViewById(R.id.pwdText);
         btnSignUp = findViewById(R.id.logInButton);
-        tvSignIn = findViewById(R.id.textView2);
+        tvSignIn = findViewById(R.id.signUpToSignIn);
         name = findViewById(R.id.nameText);
         username = findViewById(R.id.usernameText);
         dbInstance = FirebaseFirestore.getInstance();
@@ -95,23 +95,22 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, "Please Sign Up.",
                                         Toast.LENGTH_SHORT).show();
                             }
-
-                            // ...
                         }
                     });
-            tvSignIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(SignUp.this,LoginActivity.class);
-                    startActivity(i);
-
-                }
-            });
+//            tvSignIn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent i = new Intent(SignUp.this,LoginActivity.class);
+//                    startActivity(i);
+//
+//                }
+//            });
         }
     }
-
-
-
+    public void loginPage(View view){
+        Intent i = new Intent(SignUp.this, LoginActivity.class);
+        startActivity(i);
+    }
 
 
 }

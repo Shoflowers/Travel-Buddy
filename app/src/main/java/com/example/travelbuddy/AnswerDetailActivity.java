@@ -67,7 +67,7 @@ public class AnswerDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         answer = (Answer) intent.getSerializableExtra("answer");
         currUser = ((TravelBuddyApplication)getApplication()).getCurUser();
-
+        dbInstance = FirebaseFirestore.getInstance();
 
         backBtn = findViewById(R.id.detailBackButton);
         answererImg = findViewById(R.id.answererImgView);
