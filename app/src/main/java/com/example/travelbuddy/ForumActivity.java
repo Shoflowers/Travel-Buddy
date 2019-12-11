@@ -208,7 +208,7 @@ public class ForumActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // FILTER HERE
+                questionRecyclerAdapter.getFilter().filter(charSequence.toString());
             }
 
             @Override
